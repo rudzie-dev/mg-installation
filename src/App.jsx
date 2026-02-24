@@ -702,53 +702,111 @@ const Services = () => {
   );
 };
 
-// ─── BENTO IMAGE — real photo with gradient fallback ─────────────────────────
-const FALLBACK_GRADIENTS = [
-  "linear-gradient(135deg, #1a1a0f 0%, #0f1a0a 50%, #0a0f1a 100%)",
-  "linear-gradient(160deg, #111009 0%, #0d1a10 60%, #111009 100%)",
-  "linear-gradient(120deg, #0f0f0a 0%, #141a0d 55%, #0a0d14 100%)",
-  "linear-gradient(150deg, #111009 0%, #0a1410 50%, #111009 100%)",
-  "linear-gradient(140deg, #0d0c07 0%, #0f1a0c 60%, #0d0c07 100%)",
-  "linear-gradient(130deg, #111009 0%, #0c1a0e 55%, #111009 100%)",
-];
-
-const BentoImage = ({ src, alt, index = 0 }) => {
+// ─── BENTO IMAGE — static cell with fallback ─────────────────────────────────
+const StaticImage = ({ src, alt, gradient }) => {
   const [loaded, setLoaded] = useState(false);
   const [errored, setErrored] = useState(false);
-  const showFallback = errored || !src;
-
   return (
-    <div style={{ position:"absolute", inset:0 }}>
-      {/* Fallback gradient — always rendered behind */}
-      <div style={{
-        position:"absolute", inset:0,
-        background: FALLBACK_GRADIENTS[index % FALLBACK_GRADIENTS.length],
-      }}>
-        {showFallback && (
-          <div style={{ position:"absolute", inset:0, display:"flex", alignItems:"center", justifyContent:"center" }}>
-            <div style={{ width:1, height:"60%", background:"rgba(232,226,217,0.04)" }}/>
-          </div>
-        )}
-      </div>
-      {/* Real image */}
+    <div style={{ position:"absolute", inset:0, background: gradient }}>
       {!errored && src && (
         <img
-          src={src}
-          alt={alt}
+          src={src} alt={alt}
           onLoad={() => setLoaded(true)}
           onError={() => setErrored(true)}
-          style={{
-            position:"absolute", inset:0,
-            width:"100%", height:"100%",
-            objectFit:"cover",
-            opacity: loaded ? 1 : 0,
-            transition:"opacity 0.5s ease",
-          }}
+          style={{ position:"absolute", inset:0, width:"100%", height:"100%",
+            objectFit:"cover", opacity: loaded ? 1 : 0, transition:"opacity 0.6s ease" }}
         />
       )}
     </div>
   );
 };
+
+// ─── SPOTLIGHT — cycling crossfade for bento-b ────────────────────────────────
+const SPOTLIGHT_IMAGES = [
+  { src:"/1.webp", label:"Full Camera Overview",   sub:"Hikvision · Home Install" },
+  { src:"/2.webp", label:"DVR & Cable Routing",    sub:"Clean Install · Ladysmith" },
+  { src:"/3.webp", label:"Camera Placement",       sub:"Corner Mount · High Angle" },
+  { src:"/4.webp", label:"Exterior Coverage",      sub:"Driveway & Entry Points" },
+  { src:"/5.webp", label:"Night Vision Test",      sub:"IR · Full Colour Mode" },
+];
+
+const SpotlightCell = () => {
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    const t = setInterval(() => setActive(a => (a + 1) % SPOTLIGHT_IMAGES.length), 3000);
+    return () => clearInterval(t);
+  }, []);
+
+  return (
+    <div style={{ position:"absolute", inset:0 }}>
+      {/* Fallback gradient always behind */}
+      <div style={{ position:"absolute", inset:0, background:"linear-gradient(160deg,#111009 0%,#0d1a10 60%,#111009 100%)" }}/>
+
+      {/* All images stacked — only active one is visible */}
+      {SPOTLIGHT_IMAGES.map((img, i) => (
+        <motion.div key={i}
+          style={{ position:"absolute", inset:0 }}
+          animate={{ opacity: i === active ? 1 : 0 }}
+          transition={{ duration:1.2, ease:"easeInOut" }}
+        >
+          <SpotlightImage src={img.src} alt={img.label} />
+        </motion.div>
+      ))}
+
+      {/* Label — always visible at bottom, crossfades with active */}
+      <div style={{ position:"absolute", inset:0, display:"flex", flexDirection:"column", justifyContent:"flex-end",
+        padding:24, background:"linear-gradient(to top,rgba(17,16,9,0.88) 0%,transparent 50%)", pointerEvents:"none" }}>
+        <AnimatePresence mode="wait">
+          <motion.div key={active}
+            initial={{ opacity:0, y:6 }} animate={{ opacity:1, y:0 }} exit={{ opacity:0, y:-6 }}
+            transition={{ duration:0.4 }}
+          >
+            <div className="f-bar" style={{ fontSize:18, fontWeight:700, color:"#E8E2D9", letterSpacing:"-0.01em" }}>
+              {SPOTLIGHT_IMAGES[active].label}
+            </div>
+            <div className="f-mono" style={{ fontSize:10, letterSpacing:"0.12em", color:"rgba(232,226,217,0.45)", marginTop:4 }}>
+              {SPOTLIGHT_IMAGES[active].sub}
+            </div>
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Dot indicators */}
+        <div style={{ display:"flex", gap:5, marginTop:14 }}>
+          {SPOTLIGHT_IMAGES.map((_,i) => (
+            <motion.div key={i}
+              animate={{ width: i === active ? 18 : 5, background: i === active ? "#E8E2D9" : "rgba(232,226,217,0.2)" }}
+              transition={{ duration:0.3 }}
+              style={{ height:3, borderRadius:99 }}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const SpotlightImage = ({ src, alt }) => {
+  const [loaded, setLoaded] = useState(false);
+  const [errored, setErrored] = useState(false);
+  return errored ? null : (
+    <img src={src} alt={alt}
+      onLoad={() => setLoaded(true)}
+      onError={() => setErrored(true)}
+      style={{ position:"absolute", inset:0, width:"100%", height:"100%",
+        objectFit:"cover", opacity: loaded ? 1 : 0, transition:"opacity 0.5s ease" }}
+    />
+  );
+};
+
+// Static small cells — 4 photos (imgs 1–4), each pinned
+const SMALL_CELLS = [
+  { cls:"bento-a", img:"/1.webp", label:"Full Overview",    sub:"Hikvision · Home Install",   gradient:"linear-gradient(135deg,#1a1a0f,#0f1a0a)" },
+  { cls:"bento-c", img:"/2.webp", label:"DVR Routing",      sub:"Clean Cable Management",     gradient:"linear-gradient(120deg,#0f0f0a,#141a0d)" },
+  { cls:"bento-d", img:"/3.webp", label:"Camera Mount",     sub:"Corner · High Angle",        gradient:"linear-gradient(150deg,#111009,#0a1410)" },
+  { cls:"bento-e", img:"/4.webp", label:"Exterior",         sub:"Driveway Coverage",          gradient:"linear-gradient(140deg,#0d0c07,#0f1a0c)" },
+  { cls:"bento-f", img:"/5.webp", label:"Night Vision",     sub:"IR Full Colour Mode",        gradient:"linear-gradient(130deg,#111009,#0c1a0e)" },
+];
 
 // ─── RECENT WORK (BENTO) ──────────────────────────────────────────────────────
 const Work = () => {
@@ -773,33 +831,45 @@ const Work = () => {
         </motion.div>
 
         <div className="bento">
-          {BENTO_SLOTS.map((s,i) => (
-            <motion.div key={i}
+
+          {/* ── Small static cells ── */}
+          {SMALL_CELLS.map((s,i) => (
+            <motion.div key={s.cls}
               className={s.cls}
               style={{ background:"#181510", border:"1px solid rgba(232,226,217,0.06)", overflow:"hidden", position:"relative", cursor:"pointer" }}
               initial={{ opacity:0, scale:0.97 }}
               animate={inView?{opacity:1,scale:1}:{}}
               transition={{ duration:0.55, delay:i*0.08 }}
             >
-              {/* Image with gradient fallback */}
-              <BentoImage src={s.img} alt={s.label} index={i} />
+              <StaticImage src={s.img} alt={s.label} gradient={s.gradient} />
 
               {/* Hover overlay */}
               <motion.div
                 style={{ position:"absolute", inset:0, display:"flex", flexDirection:"column", justifyContent:"flex-end",
-                  padding:20, background:"linear-gradient(to top,rgba(17,16,9,0.9) 0%,transparent 55%)", opacity:0 }}
+                  padding:16, background:"linear-gradient(to top,rgba(17,16,9,0.88) 0%,transparent 55%)", opacity:0 }}
                 whileHover={{ opacity:1 }} transition={{ duration:0.2 }}
               >
-                <div className="f-bar" style={{ fontSize:16, fontWeight:700, color:"#E8E2D9", letterSpacing:"-0.01em" }}>{s.label}</div>
-                <div className="f-mono" style={{ fontSize:10, letterSpacing:"0.12em", color:"rgba(232,226,217,0.45)", marginTop:3 }}>{s.sub}</div>
+                <div className="f-bar" style={{ fontSize:14, fontWeight:700, color:"#E8E2D9" }}>{s.label}</div>
+                <div className="f-mono" style={{ fontSize:10, letterSpacing:"0.1em", color:"rgba(232,226,217,0.4)", marginTop:3 }}>{s.sub}</div>
               </motion.div>
 
-              {/* Corner index */}
-              <div className="f-mono" style={{ position:"absolute", top:14, left:14, fontSize:10, letterSpacing:"0.1em", color:"rgba(232,226,217,0.12)" }}>
+              <div className="f-mono" style={{ position:"absolute", top:12, left:12, fontSize:10, letterSpacing:"0.1em", color:"rgba(232,226,217,0.12)" }}>
                 {String(i+1).padStart(2,"0")}
               </div>
             </motion.div>
           ))}
+
+          {/* ── Spotlight — tall cycling cell ── */}
+          <motion.div
+            className="bento-b"
+            style={{ background:"#181510", border:"1px solid rgba(232,226,217,0.06)", overflow:"hidden", position:"relative", cursor:"pointer" }}
+            initial={{ opacity:0, scale:0.97 }}
+            animate={inView?{opacity:1,scale:1}:{}}
+            transition={{ duration:0.55, delay:0.4 }}
+          >
+            <SpotlightCell />
+          </motion.div>
+
         </div>
       </div>
     </section>
