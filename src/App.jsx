@@ -64,23 +64,6 @@ _css.textContent = `
     --green-lo: rgba(37,211,102,0.08);
   }
 
-  /* ── Light mode tokens ── */
-  [data-theme="light"] {
-    --bg:       #F5F2ED;
-    --bg2:      #EDEAE4;
-    --bg3:      #E4E0D8;
-    --border:   rgba(40,35,25,0.10);
-    --muted:    rgba(40,35,25,0.45);
-    --faint:    rgba(40,35,25,0.04);
-    --ink:      #1C1A14;
-    --green:    #1aab52;
-    --green-lo: rgba(26,171,82,0.08);
-  }
-
-  /* Smooth theme transition */
-  *, *::before, *::after {
-    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease !important;
-  }
 
   /* ── Paper grain overlay ── */
   body::after {
@@ -392,29 +375,8 @@ const FloatWA = () => {
   );
 };
 
-// ─── THEME ────────────────────────────────────────────────────────────────────
-const useTheme = () => {
-  const getSystem = () => window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
-  const [theme, setTheme] = useState(getSystem);
-
-  useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-  }, [theme]);
-
-  // Follow system changes
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-color-scheme: light)");
-    const fn = (e) => setTheme(e.matches ? "light" : "dark");
-    mq.addEventListener("change", fn);
-    return () => mq.removeEventListener("change", fn);
-  }, []);
-
-  const toggle = () => setTheme(t => t === "dark" ? "light" : "dark");
-  return { theme, toggle };
-};
-
 // ─── NAV ──────────────────────────────────────────────────────────────────────
-const Nav = ({ theme, onToggle }) => {
+const Nav = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mob, setMob] = useState(false);
 
@@ -430,7 +392,7 @@ const Nav = ({ theme, onToggle }) => {
         style={{
           position:"fixed", top:0, left:0, right:0, zIndex:40,
           borderBottom: scrolled ? "1px solid var(--border)" : "1px solid transparent",
-          background: scrolled ? (theme === "dark" ? "rgba(17,16,9,0.92)" : "rgba(245,242,237,0.92)") : "transparent",
+          background: scrolled ? "rgba(17,16,9,0.88)" : "transparent",
           backdropFilter: scrolled ? "blur(20px)" : "none",
           WebkitBackdropFilter: scrolled ? "blur(20px)" : "none",
           transition:"all 0.4s ease",
@@ -459,31 +421,7 @@ const Nav = ({ theme, onToggle }) => {
 
           {/* Right — theme toggle + WA + hamburger */}
           <div style={{ display:"flex", alignItems:"center", gap:10 }}>
-            <motion.button
-              onClick={onToggle}
-              title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-              style={{ background:"none", border:"1px solid var(--border)", color:"var(--muted)",
-                cursor:"pointer", padding:"7px 10px", display:"flex", alignItems:"center", justifyContent:"center",
-                borderRadius:4, flexShrink:0 }}
-              whileTap={{ scale:0.9 }}
-              whileHover={{ borderColor:"var(--green)", color:"var(--ink)" }}
-            >
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.span key={theme}
-                  initial={{ opacity:0, rotate:-30, scale:0.7 }}
-                  animate={{ opacity:1, rotate:0, scale:1 }}
-                  exit={{ opacity:0, rotate:30, scale:0.7 }}
-                  transition={{ duration:0.2 }}
-                  style={{ display:"flex" }}
-                >
-                  {theme === "dark"
-                    ? <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-                    : <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-                  }
-                </motion.span>
-              </AnimatePresence>
-            </motion.button>
-            <motion.a
+                        <motion.a
               href={WA} target="_blank"
               className="btn-glint"
               style={{ borderRadius:999, padding:"9px 18px", fontSize:11 }}
@@ -1143,10 +1081,9 @@ const Footer = () => (
 
 // ─── ROOT ─────────────────────────────────────────────────────────────────────
 export default function App() {
-  const { theme, toggle } = useTheme();
   return (
     <div>
-      <Nav theme={theme} onToggle={toggle}/>
+      <Nav/>
       <Hero/>
       <BrandBar/>
       <Services/>
