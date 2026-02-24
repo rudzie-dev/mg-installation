@@ -41,8 +41,8 @@ _css.textContent = `
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; font-size: 16px; }
   body {
-    background: #111009;
-    color: #E8E2D9;
+    background: var(--bg);
+    color: var(--ink);
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
   }
@@ -51,7 +51,7 @@ _css.textContent = `
   .f-int  { font-family: 'Inter', sans-serif; }
   .f-mono { font-family: 'DM Mono', monospace; }
 
-  /* ── Colour tokens ── */
+  /* ── Colour tokens — dark (default) ── */
   :root {
     --bg:       #111009;
     --bg2:      #181510;
@@ -62,6 +62,24 @@ _css.textContent = `
     --ink:      #E8E2D9;
     --green:    #25d366;
     --green-lo: rgba(37,211,102,0.08);
+  }
+
+  /* ── Light mode tokens ── */
+  [data-theme="light"] {
+    --bg:       #F5F2ED;
+    --bg2:      #EDEAE4;
+    --bg3:      #E4E0D8;
+    --border:   rgba(40,35,25,0.10);
+    --muted:    rgba(40,35,25,0.45);
+    --faint:    rgba(40,35,25,0.04);
+    --ink:      #1C1A14;
+    --green:    #1aab52;
+    --green-lo: rgba(26,171,82,0.08);
+  }
+
+  /* Smooth theme transition */
+  *, *::before, *::after {
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease !important;
   }
 
   /* ── Paper grain overlay ── */
@@ -374,8 +392,29 @@ const FloatWA = () => {
   );
 };
 
+// ─── THEME ────────────────────────────────────────────────────────────────────
+const useTheme = () => {
+  const getSystem = () => window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+  const [theme, setTheme] = useState(getSystem);
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
+
+  // Follow system changes
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-color-scheme: light)");
+    const fn = (e) => setTheme(e.matches ? "light" : "dark");
+    mq.addEventListener("change", fn);
+    return () => mq.removeEventListener("change", fn);
+  }, []);
+
+  const toggle = () => setTheme(t => t === "dark" ? "light" : "dark");
+  return { theme, toggle };
+};
+
 // ─── NAV ──────────────────────────────────────────────────────────────────────
-const Nav = () => {
+const Nav = ({ theme, onToggle }) => {
   const [scrolled, setScrolled] = useState(false);
   const [mob, setMob] = useState(false);
 
@@ -390,8 +429,8 @@ const Nav = () => {
       <motion.header
         style={{
           position:"fixed", top:0, left:0, right:0, zIndex:40,
-          borderBottom: scrolled ? "1px solid rgba(232,226,217,0.07)" : "1px solid transparent",
-          background: scrolled ? "rgba(17,16,9,0.88)" : "transparent",
+          borderBottom: scrolled ? "1px solid var(--border)" : "1px solid transparent",
+          background: scrolled ? (theme === "dark" ? "rgba(17,16,9,0.92)" : "rgba(245,242,237,0.92)") : "transparent",
           backdropFilter: scrolled ? "blur(20px)" : "none",
           WebkitBackdropFilter: scrolled ? "blur(20px)" : "none",
           transition:"all 0.4s ease",
@@ -403,7 +442,7 @@ const Nav = () => {
         <div style={{ maxWidth:1200, margin:"0 auto", padding:"0 32px", height:64, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
 
           {/* Logo */}
-          <span className="f-bar" style={{ fontSize:18, fontWeight:800, letterSpacing:"0.04em", color:"#E8E2D9" }}>
+          <span className="f-bar" style={{ fontSize:18, fontWeight:800, letterSpacing:"0.04em", color:"var(--ink)" }}>
             MG<span style={{ fontWeight:400, opacity:0.3, marginLeft:6 }}>INSTALLATION</span>
           </span>
 
@@ -418,8 +457,32 @@ const Nav = () => {
             ))}
           </div>
 
-          {/* Right — WA + hamburger */}
+          {/* Right — theme toggle + WA + hamburger */}
           <div style={{ display:"flex", alignItems:"center", gap:10 }}>
+            <motion.button
+              onClick={onToggle}
+              title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+              style={{ background:"none", border:"1px solid var(--border)", color:"var(--muted)",
+                cursor:"pointer", padding:"7px 10px", display:"flex", alignItems:"center", justifyContent:"center",
+                borderRadius:4, flexShrink:0 }}
+              whileTap={{ scale:0.9 }}
+              whileHover={{ borderColor:"var(--green)", color:"var(--ink)" }}
+            >
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.span key={theme}
+                  initial={{ opacity:0, rotate:-30, scale:0.7 }}
+                  animate={{ opacity:1, rotate:0, scale:1 }}
+                  exit={{ opacity:0, rotate:30, scale:0.7 }}
+                  transition={{ duration:0.2 }}
+                  style={{ display:"flex" }}
+                >
+                  {theme === "dark"
+                    ? <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                    : <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                  }
+                </motion.span>
+              </AnimatePresence>
+            </motion.button>
             <motion.a
               href={WA} target="_blank"
               className="btn-glint"
@@ -443,7 +506,7 @@ const Nav = () => {
       <AnimatePresence>
         {mob && (
           <motion.div
-            style={{ position:"fixed", inset:0, zIndex:50, background:"#111009", display:"flex", flexDirection:"column", alignItems:"flex-start", justifyContent:"center", padding:"0 40px" }}
+            style={{ position:"fixed", inset:0, zIndex:50, background:"var(--bg)", display:"flex", flexDirection:"column", alignItems:"flex-start", justifyContent:"center", padding:"0 40px" }}
             initial={{ opacity:0, x:40 }} animate={{ opacity:1, x:0 }} exit={{ opacity:0, x:40 }}
             transition={{ duration:0.3, ease:[0.22,1,0.36,1] }}
           >
@@ -487,7 +550,7 @@ const Hero = () => {
   const ref = useRef(null);
 
   return (
-    <section ref={ref} className="hero-grid" style={{ minHeight:"100vh", background:"#111009", display:"flex", flexDirection:"column", justifyContent:"center", position:"relative", overflow:"hidden", paddingTop:64 }}>
+    <section ref={ref} className="hero-grid" style={{ minHeight:"100vh", background:"var(--bg)", display:"flex", flexDirection:"column", justifyContent:"center", position:"relative", overflow:"hidden", paddingTop:64 }}>
 
       {/* Warm amber radial — top left */}
       <div style={{ position:"absolute", top:"-20%", left:"-10%", width:700, height:700, borderRadius:"50%",
@@ -576,9 +639,9 @@ const Hero = () => {
 const BrandBar = () => {
   const doubled = [...BRANDS,...BRANDS];
   return (
-    <div style={{ background:"#0D0C07", borderTop:"1px solid rgba(232,226,217,0.06)", borderBottom:"1px solid rgba(232,226,217,0.06)", padding:"28px 0", overflow:"hidden", position:"relative" }}>
-      <div style={{ position:"absolute", left:0, top:0, bottom:0, width:80, background:"linear-gradient(90deg,#0D0C07,transparent)", zIndex:2, pointerEvents:"none" }}/>
-      <div style={{ position:"absolute", right:0, top:0, bottom:0, width:80, background:"linear-gradient(-90deg,#0D0C07,transparent)", zIndex:2, pointerEvents:"none" }}/>
+    <div style={{ background:"var(--bg2)", borderTop:"1px solid var(--border)", borderBottom:"1px solid var(--border)", padding:"28px 0", overflow:"hidden", position:"relative" }}>
+      <div style={{ position:"absolute", left:0, top:0, bottom:0, width:80, background:"linear-gradient(90deg,var(--bg2),transparent)", zIndex:2, pointerEvents:"none" }}/>
+      <div style={{ position:"absolute", right:0, top:0, bottom:0, width:80, background:"linear-gradient(-90deg,var(--bg2),transparent)", zIndex:2, pointerEvents:"none" }}/>
       <div className="roll" style={{ gap:56, alignItems:"center" }}>
         {doubled.map((b,i) => (
           <span key={i} className="f-mono" style={{ fontSize:11, letterSpacing:"0.2em", textTransform:"uppercase", color:"rgba(232,226,217,0.2)", whiteSpace:"nowrap" }}>
@@ -614,7 +677,7 @@ const Services = () => {
   };
 
   return (
-    <section id="services" className="section" style={{ background:"#111009" }}>
+    <section id="services" className="section" style={{ background:"var(--bg)" }}>
       <div className="container">
         <motion.div ref={ref}
           style={{ marginBottom:48, paddingBottom:32, borderBottom:"1px solid rgba(232,226,217,0.07)" }}
@@ -815,7 +878,7 @@ const Work = () => {
   const inView = useInView(ref, { once:true, margin:"-80px" });
 
   return (
-    <section id="work" className="section" style={{ background:"#0D0C07", borderTop:"1px solid rgba(232,226,217,0.05)" }}>
+    <section id="work" className="section" style={{ background:"var(--bg2)", borderTop:"1px solid var(--border)" }}>
       <div className="container">
         <motion.div ref={ref}
           style={{ marginBottom:48, paddingBottom:32, borderBottom:"1px solid rgba(232,226,217,0.07)" }}
@@ -915,7 +978,7 @@ const Reviews = () => {
   );
 
   return (
-    <section id="reviews" className="section" style={{ background:"#111009", borderTop:"1px solid rgba(232,226,217,0.05)" }}>
+    <section id="reviews" className="section" style={{ background:"var(--bg)", borderTop:"1px solid rgba(232,226,217,0.05)" }}>
       <div className="container">
         <motion.div ref={ref}
           style={{ marginBottom:56, paddingBottom:32, borderBottom:"1px solid rgba(232,226,217,0.07)" }}
@@ -981,7 +1044,7 @@ const Contact = () => {
   ];
 
   return (
-    <section id="contact" className="section" style={{ background:"#0D0C07", borderTop:"1px solid rgba(232,226,217,0.05)" }}>
+    <section id="contact" className="section" style={{ background:"var(--bg2)", borderTop:"1px solid var(--border)" }}>
       <div className="container">
         <motion.div ref={ref}
           style={{ marginBottom:64, paddingBottom:32, borderBottom:"1px solid rgba(232,226,217,0.07)" }}
@@ -1063,7 +1126,7 @@ const Contact = () => {
 
 // ─── FOOTER ───────────────────────────────────────────────────────────────────
 const Footer = () => (
-  <footer style={{ background:"#111009", borderTop:"1px solid rgba(232,226,217,0.06)", padding:"28px 32px" }}>
+  <footer style={{ background:"var(--bg)", borderTop:"1px solid var(--border)", padding:"28px 32px" }}>
     <div style={{ maxWidth:1200, margin:"0 auto", display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:14 }}>
       <span className="f-bar" style={{ fontSize:16, fontWeight:800, letterSpacing:"0.04em", color:"rgba(232,226,217,0.3)" }}>
         MG<span style={{ fontWeight:400, marginLeft:6 }}>INSTALLATION</span>
@@ -1080,9 +1143,10 @@ const Footer = () => (
 
 // ─── ROOT ─────────────────────────────────────────────────────────────────────
 export default function App() {
+  const { theme, toggle } = useTheme();
   return (
     <div>
-      <Nav/>
+      <Nav theme={theme} onToggle={toggle}/>
       <Hero/>
       <BrandBar/>
       <Services/>
