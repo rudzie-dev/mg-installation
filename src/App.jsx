@@ -159,24 +159,27 @@ _css.textContent = `
   /* ── Bento grid ── */
   .bento {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: 220px 220px;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 260px 220px;
     gap: 3px;
   }
-  .bento-a { grid-column: span 2; grid-row: span 1; }
-  .bento-b { grid-column: span 2; grid-row: span 2; }
-  .bento-c { grid-column: span 1; }
-  .bento-d { grid-column: span 1; }
-  .bento-e { grid-column: span 1; }
-  .bento-f { grid-column: span 1; }
+  /* wide top — spans left 2 cols */
+  .bento-top  { grid-column: span 2; grid-row: 1; }
+  /* two small bottom */
+  .bento-sm-l { grid-column: 1; grid-row: 2; }
+  .bento-sm-r { grid-column: 2; grid-row: 2; }
+  /* spotlight — right col, full height */
+  .bento-spot { grid-column: 3; grid-row: 1 / span 2; }
 
   @media (max-width: 768px) {
     .bento {
       grid-template-columns: 1fr 1fr;
       grid-template-rows: auto;
     }
-    .bento-a, .bento-b { grid-column: span 2; aspect-ratio: 16/8; }
-    .bento-c, .bento-d, .bento-e, .bento-f { grid-column: span 1; aspect-ratio: 4/3; }
+    .bento-top  { grid-column: span 2; aspect-ratio: 16/7; }
+    .bento-sm-l { grid-column: 1; aspect-ratio: 4/3; }
+    .bento-sm-r { grid-column: 2; aspect-ratio: 4/3; }
+    .bento-spot { grid-column: span 2; aspect-ratio: 16/9; }
   }
 
   /* ── Service cards ── */
@@ -801,11 +804,9 @@ const SpotlightImage = ({ src, alt }) => {
 
 // Static small cells — 4 photos (imgs 1–4), each pinned
 const SMALL_CELLS = [
-  { cls:"bento-a", img:"/1.webp", label:"Full Overview",    sub:"Hikvision · Home Install",   gradient:"linear-gradient(135deg,#1a1a0f,#0f1a0a)" },
-  { cls:"bento-c", img:"/2.webp", label:"DVR Routing",      sub:"Clean Cable Management",     gradient:"linear-gradient(120deg,#0f0f0a,#141a0d)" },
-  { cls:"bento-d", img:"/3.webp", label:"Camera Mount",     sub:"Corner · High Angle",        gradient:"linear-gradient(150deg,#111009,#0a1410)" },
-  { cls:"bento-e", img:"/4.webp", label:"Exterior",         sub:"Driveway Coverage",          gradient:"linear-gradient(140deg,#0d0c07,#0f1a0c)" },
-  { cls:"bento-f", img:"/5.webp", label:"Night Vision",     sub:"IR Full Colour Mode",        gradient:"linear-gradient(130deg,#111009,#0c1a0e)" },
+  { cls:"bento-top",  img:"/1.webp", label:"Full Overview",  sub:"Hikvision · Home Install",  gradient:"linear-gradient(135deg,#1a1a0f,#0f1a0a)" },
+  { cls:"bento-sm-l", img:"/3.webp", label:"Camera Mount",   sub:"Corner · High Angle",       gradient:"linear-gradient(120deg,#0f0f0a,#141a0d)" },
+  { cls:"bento-sm-r", img:"/4.webp", label:"Exterior",       sub:"Driveway Coverage",         gradient:"linear-gradient(150deg,#111009,#0a1410)" },
 ];
 
 // ─── RECENT WORK (BENTO) ──────────────────────────────────────────────────────
@@ -861,7 +862,7 @@ const Work = () => {
 
           {/* ── Spotlight — tall cycling cell ── */}
           <motion.div
-            className="bento-b"
+            className="bento-spot"
             style={{ background:"#181510", border:"1px solid rgba(232,226,217,0.06)", overflow:"hidden", position:"relative", cursor:"pointer" }}
             initial={{ opacity:0, scale:0.97 }}
             animate={inView?{opacity:1,scale:1}:{}}
