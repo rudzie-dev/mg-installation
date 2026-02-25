@@ -17,19 +17,19 @@ const useIsMobile = () => {
 // reviewer's name and text and paste below. Stars are always 5.
 const REVIEWS = [
   {
-    name: "Thabo M.",
-    date: "2 weeks ago",
-    text: "Excellent service from start to finish. Same-day install, professional and clean. My DSTV hasn't missed a beat since. Highly recommend.",
+    name: "Theresa Teasdale",
+    date: "a week ago",
+    text: "They installed a CCTV camera system for us at the workshop. Very professional and excellent workmanship. Extremely knowledgeable, and very willing to go the extra mile. Would 100% recommend their services.",
   },
   {
-    name: "Priya N.",
-    date: "1 month ago",
-    text: "Had my CCTV cameras installed the same day I called. Very knowledgeable and gave great advice on placement. Will definitely use again.",
+    name: "Africa Mthiyane",
+    date: "a month ago",
+    text: "I've been assisted by the same business, great service, efficient and hardly had any complaints. Referred more people, they're thrilled with the service.",
   },
   {
-    name: "David K.",
-    date: "3 months ago",
-    text: "Fixed my gate motor when two other guys couldn't. Honest about what was needed, fair price. This is now my go-to for everything installation.",
+    name: "Sibusiso Tshabalala",
+    date: "a month ago",
+    text: "I have no complaints; the team performed commendably, and I am satisfied with the outcome.",
   },
 ];
 
@@ -259,14 +259,6 @@ _css.textContent = `
     .nav-menu-btn { display: none !important; }
   }
 
-  /* ── Hero stats ── */
-  .hero-stats { display: flex; flex-wrap: wrap; gap: 0; margin-top: 80px; padding-top: 40px; border-top: 1px solid rgba(232,226,217,0.07); }
-  .hero-stat { flex: 1 1 130px; padding-right: 40px; padding-bottom: 16px; }
-  @media (max-width: 640px) {
-    .hero-stats { margin-top: 56px; }
-    .hero-stat { flex: 1 1 calc(50% - 20px); padding-right: 20px; padding-bottom: 20px; }
-    .hero-stat:nth-child(2n) { padding-right: 0; }
-  }
 
   /* ── Section spacing ── */
   .section { padding: 96px 0; }
@@ -488,7 +480,7 @@ const Hero = () => {
   const ref = useRef(null);
 
   return (
-    <section ref={ref} className="hero-grid" style={{ minHeight:"100vh", background:"var(--bg)", display:"flex", flexDirection:"column", justifyContent:"center", position:"relative", overflow:"hidden", paddingTop:64 }}>
+    <section ref={ref} className="hero-grid" style={{ minHeight:"100vh", minHeight:"100svh", background:"var(--bg)", display:"flex", flexDirection:"column", justifyContent:"center", position:"relative", overflow:"hidden", paddingTop:80, paddingBottom:48 }}>
 
       {/* Warm amber radial — top left */}
       <div style={{ position:"absolute", top:"-20%", left:"-10%", width:700, height:700, borderRadius:"50%",
@@ -500,7 +492,7 @@ const Hero = () => {
 
       <div className="hero-container">
         <motion.div
-          style={{ display:"inline-flex", alignItems:"center", gap:10, border:"1px solid rgba(232,226,217,0.1)", padding:"8px 16px", marginBottom:52 }}
+          style={{ display:"inline-flex", alignItems:"center", gap:10, border:"1px solid rgba(232,226,217,0.1)", padding:"8px 16px", marginBottom:"clamp(28px,4vw,52px)" }}
           initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.6, delay:0.2 }}
         >
           <span className="live-dot" style={{ width:7, height:7, borderRadius:"50%", background:"#25d366", boxShadow:"0 0 8px #25d366", flexShrink:0 }}/>
@@ -552,19 +544,24 @@ const Hero = () => {
           </a>
         </motion.div>
 
-        {/* Stats */}
+        {/* Stats 2x2 grid */}
         <motion.div
-          className="hero-stats"
+          style={{ marginTop:"clamp(40px,6vw,80px)", display:"inline-grid", gridTemplateColumns:"1fr 1fr", border:"1px solid rgba(232,226,217,0.07)", width:"100%", maxWidth:480 }}
           initial={{ opacity:0 }} animate={{ opacity:1 }} transition={{ duration:0.9, delay:1.0 }}
         >
           {[["11+","Years Active"],["5.0 ★","Google Rating"],["7","Days / Week"],["100%","First-Time Fix Rate"]].map(([n,l],i) => (
-            <motion.div key={i} className="hero-stat"
+            <motion.div key={i}
+              style={{
+                padding:"clamp(16px,3vw,28px) clamp(20px,3vw,36px)",
+                borderRight: i % 2 === 0 ? "1px solid rgba(232,226,217,0.07)" : "none",
+                borderBottom: i < 2 ? "1px solid rgba(232,226,217,0.07)" : "none",
+              }}
               initial={{ opacity:0, y:12 }}
               animate={{ opacity:1, y:0 }}
               transition={{ duration:0.55, delay:1.05 + i*0.1, ease:[0.22,1,0.36,1] }}
             >
-              <div className="f-bar" style={{ fontSize:38, fontWeight:900, color:"#E8E2D9", lineHeight:1, letterSpacing:"-0.01em" }}>{n}</div>
-              <div className="f-mono" style={{ fontSize:10, letterSpacing:"0.2em", textTransform:"uppercase", color:"rgba(232,226,217,0.28)", marginTop:7 }}>{l}</div>
+              <div className="f-bar" style={{ fontSize:"clamp(26px,4vw,36px)", fontWeight:900, color:"#E8E2D9", lineHeight:1, letterSpacing:"-0.02em" }}>{n}</div>
+              <div className="f-mono" style={{ fontSize:10, letterSpacing:"0.2em", textTransform:"uppercase", color:"rgba(232,226,217,0.28)", marginTop:8 }}>{l}</div>
             </motion.div>
           ))}
         </motion.div>
