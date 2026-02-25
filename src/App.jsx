@@ -260,6 +260,24 @@ _css.textContent = `
   }
 
 
+  /* ── Hero two-col layout ── */
+  .hero-cols {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    align-items: center;
+    gap: 64px;
+  }
+  .hero-left { min-width: 0; }
+  .hero-right { position: relative; }
+
+  @media (max-width: 900px) {
+    .hero-cols {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+    .hero-right { max-width: 400px; }
+  }
+
   /* ── Section spacing ── */
   .section { padding: 96px 0; }
   .container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
