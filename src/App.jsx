@@ -278,6 +278,18 @@ _css.textContent = `
     .hero-right { max-width: 400px; }
   }
 
+  /* ── Hero two-col layout ── */
+  .hero-grid-cols { grid-template-columns: 1fr 380px !important; }
+  @media (max-width: 860px) {
+    .hero-grid-cols {
+      grid-template-columns: 1fr !important;
+      gap: 48px !important;
+    }
+  }
+  @media (max-width: 640px) {
+    .hero-grid-cols { padding: 0 20px !important; }
+  }
+
   /* ── Section spacing ── */
   .section { padding: 96px 0; }
   .container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
@@ -494,95 +506,161 @@ const Nav = () => {
 };
 
 // ─── HERO ─────────────────────────────────────────────────────────────────────
+const STATS = [
+  { n:"11+",  l:"Years Active" },
+  { n:"5.0★", l:"Google Rating" },
+  { n:"7",    l:"Days / Week" },
+  { n:"100%", l:"First-Time Fix" },
+];
+
 const Hero = () => {
   const ref = useRef(null);
 
   return (
-    <section ref={ref} className="hero-grid" style={{ minHeight:"100vh", minHeight:"100svh", background:"var(--bg)", display:"flex", flexDirection:"column", justifyContent:"center", position:"relative", overflow:"hidden", paddingTop:80, paddingBottom:48 }}>
-
-      {/* Warm amber radial — top left */}
+    <section
+      ref={ref}
+      className="hero-grid"
+      style={{
+        minHeight:"100vh",
+        background:"#111009",
+        position:"relative",
+        overflow:"hidden",
+        display:"flex",
+        alignItems:"center",
+        paddingTop:64,
+      }}
+    >
+      {/* Ambient glows */}
       <div style={{ position:"absolute", top:"-20%", left:"-10%", width:700, height:700, borderRadius:"50%",
         background:"radial-gradient(circle, rgba(180,130,60,0.06) 0%, transparent 65%)", pointerEvents:"none" }}/>
-
-      {/* Green radial — bottom right */}
       <div style={{ position:"absolute", bottom:"-10%", right:"-5%", width:600, height:600, borderRadius:"50%",
         background:"radial-gradient(circle, rgba(37,211,102,0.05) 0%, transparent 65%)", pointerEvents:"none" }}/>
 
-      <div className="hero-container">
-        <motion.div
-          style={{ display:"inline-flex", alignItems:"center", gap:10, border:"1px solid rgba(232,226,217,0.1)", padding:"8px 16px", marginBottom:"clamp(28px,4vw,52px)" }}
-          initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.6, delay:0.2 }}
-        >
-          <span className="live-dot" style={{ width:7, height:7, borderRadius:"50%", background:"#25d366", boxShadow:"0 0 8px #25d366", flexShrink:0 }}/>
-          <span className="f-mono" style={{ fontSize:11, letterSpacing:"0.18em", textTransform:"uppercase", color:"rgba(232,226,217,0.4)" }}>
-            Available Now · Ladysmith & Surrounding Areas
-          </span>
-        </motion.div>
+      {/* ── Full-width container split into left + right ── */}
+      <div style={{
+        width:"100%", maxWidth:1200, margin:"0 auto",
+        padding:"0 32px",
+        display:"grid",
+        gridTemplateColumns:"1fr 380px",
+        gap:64,
+        alignItems:"center",
+      }}
+        className="hero-grid-cols"
+      >
 
-        {/* Headline — direct, no fluff */}
-        <div style={{ overflow:"hidden", marginBottom:8 }}>
-          <motion.h1 className="f-bar"
-            style={{ fontSize:"clamp(52px,8vw,112px)", fontWeight:900, lineHeight:0.92, letterSpacing:"-0.02em", color:"#E8E2D9" }}
-            initial={{ y:110, opacity:0 }} animate={{ y:0, opacity:1 }}
-            transition={{ duration:0.9, ease:[0.22,1,0.36,1], delay:0.28 }}
+        {/* ── LEFT — all copy ── */}
+        <div>
+          {/* Badge */}
+          <motion.div
+            style={{ display:"inline-flex", alignItems:"center", gap:10, border:"1px solid rgba(232,226,217,0.1)", padding:"8px 16px", marginBottom:40 }}
+            initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.6, delay:0.15 }}
           >
-            Installed Right.
-          </motion.h1>
-        </div>
-        <div style={{ overflow:"hidden", marginBottom:40 }}>
-          <motion.h1 className="f-bar"
-            style={{ fontSize:"clamp(52px,8vw,112px)", fontWeight:900, fontStyle:"italic", lineHeight:0.92, letterSpacing:"-0.02em",
-              color:"transparent", WebkitTextStroke:"1px rgba(232,226,217,0.2)" }}
-            initial={{ y:110, opacity:0 }} animate={{ y:0, opacity:1 }}
-            transition={{ duration:0.9, ease:[0.22,1,0.36,1], delay:0.4 }}
+            <span className="live-dot" style={{ width:7, height:7, borderRadius:"50%", background:"#25d366", boxShadow:"0 0 8px #25d366", flexShrink:0 }}/>
+            <span className="f-mono" style={{ fontSize:11, letterSpacing:"0.18em", textTransform:"uppercase", color:"rgba(232,226,217,0.4)" }}>
+              Available Now · Ladysmith & Surrounding Areas
+            </span>
+          </motion.div>
+
+          {/* Headline */}
+          <div style={{ overflow:"hidden", marginBottom:6 }}>
+            <motion.h1 className="f-bar"
+              style={{ fontSize:"clamp(48px,7vw,104px)", fontWeight:900, lineHeight:0.9, letterSpacing:"-0.02em", color:"#E8E2D9", margin:0 }}
+              initial={{ y:"110%", opacity:0 }} animate={{ y:0, opacity:1 }}
+              transition={{ duration:0.85, ease:[0.22,1,0.36,1], delay:0.25 }}
+            >Installed Right.</motion.h1>
+          </div>
+          <div style={{ overflow:"hidden", marginBottom:36 }}>
+            <motion.h1 className="f-bar"
+              style={{ fontSize:"clamp(48px,7vw,104px)", fontWeight:900, fontStyle:"italic", lineHeight:0.9, letterSpacing:"-0.02em",
+                color:"transparent", WebkitTextStroke:"1px rgba(232,226,217,0.18)", margin:0 }}
+              initial={{ y:"110%", opacity:0 }} animate={{ y:0, opacity:1 }}
+              transition={{ duration:0.85, ease:[0.22,1,0.36,1], delay:0.38 }}
+            >First Time.</motion.h1>
+          </div>
+
+          {/* Tagline */}
+          <motion.p className="f-int"
+            style={{ fontSize:16, fontWeight:300, color:"rgba(232,226,217,0.45)", maxWidth:480, lineHeight:1.8, marginBottom:40 }}
+            initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.7, delay:0.52 }}
           >
-            First Time.
-          </motion.h1>
+            Whether you're a homeowner wanting reliable TV and security, or a business needing gates,
+            intercoms and cameras — we get it done cleanly, on time, every time.
+          </motion.p>
+
+          {/* CTAs */}
+          <motion.div
+            style={{ display:"flex", flexWrap:"wrap", gap:12 }}
+            initial={{ opacity:0, y:14 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.6, delay:0.66 }}
+          >
+            <a href={WA} target="_blank" className="btn-glint" style={{ fontSize:13, padding:"14px 28px" }}>
+              <WASvg size={15}/> WhatsApp a Quote
+            </a>
+            <a href="#services" className="btn-glint" style={{ fontSize:13, padding:"14px 28px" }}>
+              View Services <ArrowRight size={14}/>
+            </a>
+          </motion.div>
         </div>
 
-        {/* Tagline */}
-        <motion.p className="f-int"
-          style={{ fontSize:17, fontWeight:300, color:"rgba(232,226,217,0.45)", maxWidth:520, lineHeight:1.75, marginBottom:44 }}
-          initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.8, delay:0.55 }}
-        >
-          Whether you're a homeowner wanting reliable TV and security, or a business needing gates,
-          intercoms and cameras — we get it done cleanly, on time, every time.
-        </motion.p>
-
-        {/* CTAs */}
+        {/* ── RIGHT — architectural 2x2 stat box ── */}
         <motion.div
-          style={{ display:"flex", flexWrap:"wrap", gap:12 }}
-          initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.7, delay:0.7 }}
+          style={{ position:"relative" }}
+          initial={{ opacity:0, x:32 }} animate={{ opacity:1, x:0 }}
+          transition={{ duration:0.9, ease:[0.22,1,0.36,1], delay:0.5 }}
         >
-          <a href={WA} target="_blank" className="btn-glint" style={{ fontSize:13, padding:"15px 28px" }}>
-            <WASvg size={16}/> WhatsApp a Quote
-          </a>
-          <a href="#services" className="btn-glint" style={{ fontSize:13, padding:"15px 28px" }}>
-            View Services <ArrowRight size={14}/>
-          </a>
-        </motion.div>
+          {/* Breathing green glow ring */}
+          <motion.div
+            style={{
+              position:"absolute", inset:-12, borderRadius:2,
+              background:"radial-gradient(ellipse at center, rgba(37,211,102,0.06) 0%, transparent 70%)",
+              pointerEvents:"none",
+            }}
+            animate={{ opacity:[0.5, 1, 0.5], scale:[0.97, 1.02, 0.97] }}
+            transition={{ duration:4, repeat:Infinity, ease:"easeInOut" }}
+          />
 
-        {/* Stats 2x2 grid */}
-        <motion.div
-          style={{ marginTop:"clamp(40px,6vw,80px)", display:"inline-grid", gridTemplateColumns:"1fr 1fr", border:"1px solid rgba(232,226,217,0.07)", width:"100%", maxWidth:480 }}
-          initial={{ opacity:0 }} animate={{ opacity:1 }} transition={{ duration:0.9, delay:1.0 }}
-        >
-          {[["11+","Years Active"],["5.0 ★","Google Rating"],["7","Days / Week"],["100%","First-Time Fix Rate"]].map(([n,l],i) => (
-            <motion.div key={i}
+          {/* The box */}
+          <div style={{
+            display:"grid",
+            gridTemplateColumns:"1fr 1fr",
+            gridTemplateRows:"1fr 1fr",
+            border:"1px solid rgba(232,226,217,0.1)",
+            background:"rgba(232,226,217,0.02)",
+            position:"relative",
+            overflow:"hidden",
+          }}>
+
+            {/* Sweeping highlight line — the wave */}
+            <motion.div
               style={{
-                padding:"clamp(16px,3vw,28px) clamp(20px,3vw,36px)",
-                borderRight: i % 2 === 0 ? "1px solid rgba(232,226,217,0.07)" : "none",
-                borderBottom: i < 2 ? "1px solid rgba(232,226,217,0.07)" : "none",
+                position:"absolute", top:0, left:0, width:"100%", height:"100%",
+                background:"linear-gradient(105deg, transparent 30%, rgba(37,211,102,0.04) 50%, transparent 70%)",
+                pointerEvents:"none", zIndex:1,
               }}
-              initial={{ opacity:0, y:12 }}
-              animate={{ opacity:1, y:0 }}
-              transition={{ duration:0.55, delay:1.05 + i*0.1, ease:[0.22,1,0.36,1] }}
-            >
-              <div className="f-bar" style={{ fontSize:"clamp(26px,4vw,36px)", fontWeight:900, color:"#E8E2D9", lineHeight:1, letterSpacing:"-0.02em" }}>{n}</div>
-              <div className="f-mono" style={{ fontSize:10, letterSpacing:"0.2em", textTransform:"uppercase", color:"rgba(232,226,217,0.28)", marginTop:8 }}>{l}</div>
-            </motion.div>
-          ))}
+              animate={{ x:["-100%","100%"] }}
+              transition={{ duration:3.5, repeat:Infinity, ease:"easeInOut", repeatDelay:2 }}
+            />
+
+            {STATS.map(({ n, l }, i) => (
+              <motion.div
+                key={i}
+                style={{
+                  padding:"32px 28px",
+                  borderRight:  i % 2 === 0 ? "1px solid rgba(232,226,217,0.08)" : "none",
+                  borderBottom: i < 2       ? "1px solid rgba(232,226,217,0.08)" : "none",
+                  position:"relative",
+                }}
+                initial={{ opacity:0, y:20 }}
+                animate={{ opacity:1, y:0 }}
+                transition={{ duration:0.55, delay:0.7 + i * 0.1, ease:[0.22,1,0.36,1] }}
+                whileHover={{ background:"rgba(37,211,102,0.03)" }}
+              >
+                <div className="f-bar" style={{ fontSize:"clamp(30px,3vw,44px)", fontWeight:900, color:"#E8E2D9", lineHeight:1, letterSpacing:"-0.02em" }}>{n}</div>
+                <div className="f-mono" style={{ fontSize:10, letterSpacing:"0.18em", textTransform:"uppercase", color:"rgba(232,226,217,0.3)", marginTop:9 }}>{l}</div>
+              </motion.div>
+            ))}
+          </div>
         </motion.div>
+
       </div>
     </section>
   );
