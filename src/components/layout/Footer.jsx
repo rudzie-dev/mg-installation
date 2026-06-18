@@ -44,9 +44,9 @@ export default function Footer() {
           <div className="md:col-span-4 flex flex-col gap-5">
             <div>
               <span className="font-black text-2xl tracking-tight text-[#1C1917]">MG</span>
-              <span className="font-bold text-xs tracking-widest uppercase text-[#A8A29E] ml-2">Installations</span>
+              <span className="font-bold text-xs tracking-widest uppercase text-[#57534E] ml-2">Installations</span>
             </div>
-            <p className="text-sm text-[#78716C] leading-relaxed max-w-xs">
+            <p className="text-sm text-[#57534E] leading-relaxed max-w-xs">
               Professional CCTV, DSTV, and TV mounting installations across uMnambithi and surrounding areas.
             </p>
             <div className="flex flex-col gap-2.5 text-sm font-semibold text-[#1C1917]">
@@ -58,7 +58,7 @@ export default function Footer() {
                 className="flex items-center gap-2 hover:text-[#2563EB] transition-colors w-fit">
                 <Mail className="w-4 h-4 text-[#2563EB]" aria-hidden="true" /> info@mginstallations.co.za
               </a>
-              <span className="flex items-center gap-2 text-[#78716C] font-normal">
+              <span className="flex items-center gap-2 text-[#57534E] font-normal">
                 <MapPin className="w-4 h-4 text-[#2563EB] shrink-0" aria-hidden="true" /> Shop 19, Ladysmith Game Centre, KZN
               </span>
             </div>
@@ -73,7 +73,7 @@ export default function Footer() {
 
           {/* Nav col */}
           <div className="md:col-span-2 md:col-start-6 flex flex-col gap-3">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-[#A8A29E] mb-1">Navigation</span>
+            <span className="text-[10px] font-bold uppercase tracking-widest text-[#57534E] mb-1">Navigation</span>
             {NAV.map(({ label, path }) => (
               <button key={label} onClick={() => navigate(path)}
                 className="text-sm text-[#57534E] hover:text-[#1C1917] font-medium text-left transition-colors w-fit">
@@ -84,7 +84,7 @@ export default function Footer() {
 
           {/* Service areas col */}
           <div className="md:col-span-4 md:col-start-9 flex flex-col gap-3">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-[#A8A29E] mb-1">Service Areas</span>
+            <span className="text-[10px] font-bold uppercase tracking-widest text-[#57534E] mb-1">Service Areas</span>
             <div className="flex flex-wrap gap-2">
               {AREAS.map((area) => (
                 <span key={area}
@@ -98,7 +98,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="pt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-[#A8A29E]">
+        <div className="pt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-[#57534E]">
           <span>© {year} MG Installations. All rights reserved.</span>
           <span>Built for uMnambithi & surrounding areas.</span>
         </div>
