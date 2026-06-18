@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+import { Loader2 } from "lucide-react";
 
 const PORTFOLIO_ITEMS = [
   { id: 1, title: "Commercial Security Feed",  category: "cctv",     img: "/images/ColorVu-Camera.webp",       desc: "ColorVu night-vision deployment at Ladysmith depot." },
@@ -28,19 +29,22 @@ const fadeUp = (delay = 0) => ({
 
 export default function PortfolioPage() {
   const [active, setActive] = useState("all");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Trigger loading spinner on initial page mount (nav bar click)
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 500);
+    return () => clearTimeout(timer);
+  }, []);
 
   // Filter Logic
   const filtered = active === "all" ? PORTFOLIO_ITEMS : PORTFOLIO_ITEMS.filter(i => i.category === active);
-  
-  // Calculate how many skeletons to show so layout doesn't completely collapse
-  const skeletonCount = filtered.length > 0 ? filtered.length : 3;
 
   const handleFilter = (categoryId) => {
     if (categoryId === active) return;
     setIsLoading(true);
     setActive(categoryId);
-    // Mimic processing delay for sleek UX
+    // Mimic processing delay for the spinner
     setTimeout(() => {
       setIsLoading(false);
     }, 450);
@@ -78,35 +82,28 @@ export default function PortfolioPage() {
         </motion.div>
 
         {/* Grid Area */}
-        <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 min-h-[400px]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 min-h-[400px]">
           <AnimatePresence mode="wait">
             {isLoading ? (
-              // The Skeleton Loader Array
-              Array.from({ length: skeletonCount }).map((_, i) => (
-                <motion.div key={`skeleton-${i}`}
+              // The Minimal Circular Loader
+              <motion.div 
+                key="loader"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="col-span-full flex justify-center items-center py-20"
+              >
+                <Loader2 className="w-10 h-10 text-[#2563EB] animate-spin" />
+              </motion.div>
+            ) : (
+              // The Actual Data Cards (Fixed Positional Fade)
+              filtered.map((item, i) => (
+                <motion.div key={item.id}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="bg-white border border-[#E7E5E4] rounded-2xl overflow-hidden flex flex-col gap-4">
-                  {/* Shimmer Image Box */}
-                  <div className="h-52 w-full bg-gray-200 animate-pulse" />
-                  <div className="p-5 flex flex-col gap-3">
-                    {/* Shimmer Text Lines */}
-                    <div className="h-5 bg-gray-200 rounded animate-pulse w-3/4" />
-                    <div className="h-4 bg-gray-200 rounded animate-pulse w-full" />
-                    <div className="h-4 bg-gray-200 rounded animate-pulse w-5/6" />
-                  </div>
-                </motion.div>
-              ))
-            ) : (
-              // The Actual Data Cards
-              filtered.map((item, i) => (
-                <motion.div layout key={item.id}
-                  initial={{ opacity: 0, scale: 0.96 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.96 }}
-                  transition={{ duration: 0.35, delay: i * 0.05 }}
+                  transition={{ duration: 0.4, delay: i * 0.05 }}
                   className="group bg-white border border-[#E7E5E4] rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-black/8 transition-all duration-300">
                   <div className="relative h-52 overflow-hidden">
                     <img src={item.img} alt={item.title}
@@ -124,7 +121,7 @@ export default function PortfolioPage() {
               ))
             )}
           </AnimatePresence>
-        </motion.div>
+        </div>
       </main>
 
       <Footer />
