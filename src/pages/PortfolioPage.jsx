@@ -31,23 +31,59 @@ export default function PortfolioPage() {
   const [active, setActive] = useState("all");
   const [isLoading, setIsLoading] = useState(true);
 
-  // Trigger loading spinner on initial page mount (nav bar click)
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 500);
-    return () => clearTimeout(timer);
-  }, []);
-
-  // Filter Logic
   const filtered = active === "all" ? PORTFOLIO_ITEMS : PORTFOLIO_ITEMS.filter(i => i.category === active);
 
-  const handleFilter = (categoryId) => {
-    if (categoryId === active) return;
+  // Helper function to physically load images into browser cache
+  const preloadImages = (items) => {
+    return items.map(item => {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.src = item.img;
+        img.onload = resolve;
+        img.onerror = resolve; // Resolve anyway to prevent infinite loading if an image breaks
+      });
+    });
+  };
+
+  // Initial Page Mount Loader
+  useEffect(() => {
+    let isMounted = true;
+    
+    const loadInitialAssets = async () => {
+      // 1. Minimum visual delay
+      const delayPromise = new Promise(resolve => setTimeout(resolve, 600));
+      // 2. Actual image loading
+      const imagePromises = preloadImages(PORTFOLIO_ITEMS);
+      
+      // Wait for both to finish completely
+      await Promise.all([delayPromise, ...imagePromises]);
+      
+      if (isMounted) setIsLoading(false);
+    };
+
+    loadInitialAssets();
+    return () => { isMounted = false; };
+  }, []);
+
+  const handleFilter = async (categoryId) => {
+    if (categoryId === active || isLoading) return;
+    
     setIsLoading(true);
-    setActive(categoryId);
-    // Mimic processing delay for the spinner
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 450);
+    setActive(categoryId); 
+
+    // Calculate the new items that need to be loaded
+    const newItems = categoryId === "all" ? PORTFOLIO_ITEMS : PORTFOLIO_ITEMS.filter(i => i.category === categoryId);
+    
+    // 1. Intentional minimum delay
+    const delayPromise = new Promise(resolve => setTimeout(resolve, 600));
+    
+    // 2. Actual image loading
+    const imagePromises = preloadImages(newItems);
+
+    // Halt the UI until the delay passes AND all new images are fully downloaded
+    await Promise.all([delayPromise, ...imagePromises]);
+    
+    setIsLoading(false);
   };
 
   return (
@@ -82,43 +118,51 @@ export default function PortfolioPage() {
         </motion.div>
 
         {/* Grid Area */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 min-h-[400px]">
+        <div className="min-h-[400px]">
           <AnimatePresence mode="wait">
             {isLoading ? (
-              // The Minimal Circular Loader
+              // Loader State
               <motion.div 
                 key="loader"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.2 }}
-                className="col-span-full flex justify-center items-center py-20"
+                className="flex justify-center items-center py-24 w-full"
               >
                 <Loader2 className="w-10 h-10 text-[#2563EB] animate-spin" />
               </motion.div>
             ) : (
-              // The Actual Data Cards (Fixed Positional Fade)
-              filtered.map((item, i) => (
-                <motion.div key={item.id}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.4, delay: i * 0.05 }}
-                  className="group bg-white border border-[#E7E5E4] rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-black/8 transition-all duration-300">
-                  <div className="relative h-52 overflow-hidden">
-                    <img src={item.img} alt={item.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 will-change-transform" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#1C1917]/50 via-transparent to-transparent" />
-                    <span className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm text-[#1C1917] text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full border border-white/40">
-                      {CATEGORIES.find(c => c.id === item.category)?.label}
-                    </span>
-                  </div>
-                  <div className="p-5">
-                    <h3 className="font-bold text-base text-[#1C1917] mb-1">{item.title}</h3>
-                    <p className="text-sm text-[#57534E] leading-relaxed">{item.desc}</p>
-                  </div>
-                </motion.div>
-              ))
+              // Grid State
+              <motion.div 
+                key="grid"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+              >
+                {filtered.map((item, i) => (
+                  <motion.div key={item.id}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.4, delay: i * 0.05 }}
+                    className="group bg-white border border-[#E7E5E4] rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-black/8 transition-all duration-300">
+                    <div className="relative h-52 overflow-hidden">
+                      <img src={item.img} alt={item.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 will-change-transform" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#1C1917]/50 via-transparent to-transparent" />
+                      <span className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm text-[#1C1917] text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full border border-white/40">
+                        {CATEGORIES.find(c => c.id === item.category)?.label}
+                      </span>
+                    </div>
+                    <div className="p-5">
+                      <h3 className="font-bold text-base text-[#1C1917] mb-1">{item.title}</h3>
+                      <p className="text-sm text-[#57534E] leading-relaxed">{item.desc}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
             )}
           </AnimatePresence>
         </div>
