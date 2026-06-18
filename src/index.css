@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@200;300;400;500;600;700;800;900&family=Lexend+Deca:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+}
+
+/* Base Typographic Hierarchy & Theme Sync */
+body {
+  font-family: 'Lexend Deca', sans-serif;
+  font-weight: 300;
+  background-color: #F5F5F4; /* Synced with React components */
+  color: #1C1917; /* Synced with React components */
+  overflow-x: hidden;
+}
+
+.display {
+  font-family: 'Lexend', sans-serif;
+}
+
+/* Sleek Agency Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #E7E5E4;
+}
+::-webkit-scrollbar-thumb {
+  background: #A8A29E;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #78716C;
+}
+
+/* ── BUTTONS ── */
+.cta-btn {
+  background: #1C1917;
+  color: #FFFFFF;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+.cta-btn:hover:not(:disabled) {
+  background: #292524;
+  transform: scale(1.02);
+  box-shadow: 0 4px 14px 0 rgba(0,0,0,0.1);
+}
+.cta-btn:active:not(:disabled) {
+  transform: scale(0.99);
+}
+
+/* ── UI ELEMENTS ── */
+.label {
+  font-family: 'Lexend', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #78716C;
+}
+
+.divider {
+  background: linear-gradient(90deg, transparent, rgba(28,25,23,0.1) 30%, rgba(28,25,23,0.1) 70%, transparent);
+}
+
+/* ── FORMS (For Contact & Quote Pages) ── */
+input, select, textarea {
+  background: #FFFFFF;
+  border: 1px solid #D6D3D1;
+  color: #1C1917;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+}
+input:focus, select:focus, textarea:focus { 
+  border-color: #2563EB; 
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+}
+input::placeholder, textarea::placeholder {
+  color: #A8A29E;
+}
+select option {
+  background: #FFFFFF;
+  color: #1C1917;
+}
