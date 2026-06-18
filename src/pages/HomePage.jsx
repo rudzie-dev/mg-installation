@@ -34,21 +34,20 @@ const REVIEWS = [
   { name: "Thabo Mokoena",  service: "TV Wall Mounting", stars: 5, text: "Excellent TV wall mounting. Looks very neat with no cables showing. Would definitely use MG Installation again." }
 ];
 
+// GPU-Accelerated Scroll Config
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
   whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true },
+  viewport: { once: true, margin: "0px 0px -100px 0px" },
+  style: { willChange: "transform, opacity" },
   transition: { duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] },
 });
 
 export default function HomePage() {
   const navigate = useNavigate();
 
-  // Vanilla SEO & Schema Injection
   useEffect(() => {
     document.title = "MG Installations | Expert CCTV, DSTV & TV Mounting in uMnambithi";
-    
-    // Meta Description
     let metaDesc = document.querySelector('meta[name="description"]');
     if (!metaDesc) {
       metaDesc = document.createElement('meta');
@@ -57,7 +56,6 @@ export default function HomePage() {
     }
     metaDesc.content = "Fast, professional installations in uMnambithi, Ladysmith & surrounding areas. Specializing in CCTV, DSTV, Gate Motors, and TV Wall Mounting. Get a free quote today.";
 
-    // JSON-LD Schema
     const schemaId = "mg-installations-schema";
     let script = document.getElementById(schemaId);
     if (!script) {
@@ -86,9 +84,7 @@ export default function HomePage() {
       });
       document.head.appendChild(script);
     }
-
     return () => {
-      // Clean up script if navigating away to keep routes clean
       const existingScript = document.getElementById(schemaId);
       if (existingScript) existingScript.remove();
     };
@@ -98,17 +94,13 @@ export default function HomePage() {
     <div className="bg-[#F5F5F4] text-[#1C1917] min-h-screen overflow-x-hidden font-sans">
       <Navbar />
 
-      {/* ── HERO ── */}
       <section className="relative min-h-screen w-full flex items-center pt-20 pb-16 overflow-hidden">
-        {/* Watermark */}
         <div className="absolute inset-0 hidden md:flex items-center overflow-hidden pointer-events-none select-none z-0">
           <span className="font-black text-[22vw] leading-none tracking-tighter text-[#ECEAE8] whitespace-nowrap">MG</span>
         </div>
 
         <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-
-            {/* LEFT */}
             <motion.div initial={{ opacity: 0, x: -32 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}>
               <div className="inline-flex items-center gap-2 mb-6 bg-[#1C1917] text-white px-3 py-1.5 rounded-full w-fit">
                 <ShieldCheck className="w-3.5 h-3.5 text-[#2563EB]" />
@@ -132,9 +124,8 @@ export default function HomePage() {
               </div>
             </motion.div>
 
-            {/* RIGHT — WA card */}
             <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-              className="flex justify-center lg:justify-end mt-6 lg:mt-0">
+              className="flex justify-center lg:justify-end mt-6 lg:mt-0 will-change-transform">
               <div className="w-full max-w-sm bg-white rounded-3xl border border-[#E7E5E4] shadow-xl shadow-black/5 p-8 flex flex-col items-center text-center gap-6">
                 <div className="w-20 h-20 rounded-2xl flex items-center justify-center text-white"
                   style={{ background: "linear-gradient(135deg,#25D366 0%,#128C7E 100%)" }}>
@@ -162,12 +153,10 @@ export default function HomePage() {
                 <p className="text-xs text-[#A8A29E]">⚡ Usually replies in under 5 minutes</p>
               </div>
             </motion.div>
-
           </div>
         </div>
       </section>
 
-      {/* ── SERVICES GRID ── */}
       <section id="services" className="py-24 px-6 bg-white">
         <div className="max-w-7xl mx-auto">
           <motion.div {...fadeUp()} className="mb-14">
@@ -181,7 +170,7 @@ export default function HomePage() {
               return (
                 <motion.div key={i} {...fadeUp(i * 0.07)}
                   onClick={() => navigate(s.path)}
-                  className="group relative rounded-2xl overflow-hidden bg-[#F5F5F4] border border-[#E7E5E4] hover:shadow-xl hover:shadow-black/8 transition-all duration-300 cursor-pointer">
+                  className="group relative rounded-2xl overflow-hidden bg-[#F5F5F4] border border-[#E7E5E4] hover:shadow-xl hover:shadow-black/8 transition-all duration-300 cursor-pointer will-change-transform">
                   <div className="relative h-48 overflow-hidden">
                     <img src={s.img} alt={s.title}
                       className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-500" />
@@ -198,10 +187,9 @@ export default function HomePage() {
               );
             })}
 
-            {/* Filler — WA link */}
             <motion.a {...fadeUp(SERVICES.length * 0.07)}
               href={`https://wa.me/${WA_NUMBER}?text=${WA_MESSAGE}`} target="_blank" rel="noopener noreferrer"
-              className="group rounded-2xl border-2 border-dashed border-[#D6D3D1] hover:border-[#2563EB]/40 transition-all duration-300 flex flex-col items-center justify-center gap-4 min-h-[220px] text-[#A8A29E] hover:text-[#2563EB]">
+              className="group rounded-2xl border-2 border-dashed border-[#D6D3D1] hover:border-[#2563EB]/40 transition-all duration-300 flex flex-col items-center justify-center gap-4 min-h-[220px] text-[#A8A29E] hover:text-[#2563EB] will-change-transform">
               <div className="w-12 h-12 rounded-xl border-2 border-current flex items-center justify-center group-hover:bg-blue-50 transition-colors">
                 <ArrowRight className="w-5 h-5" />
               </div>
@@ -213,7 +201,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── SOCIAL PROOF ── */}
       <section className="py-24 px-6 bg-[#F5F5F4]">
         <div className="max-w-7xl mx-auto">
           <motion.div {...fadeUp()} className="mb-14">
@@ -224,7 +211,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {REVIEWS.map((r, i) => (
               <motion.div key={i} {...fadeUp(i * 0.1)}
-                className="bg-white border border-[#E7E5E4] rounded-2xl p-8 flex flex-col gap-5 shadow-sm">
+                className="bg-white border border-[#E7E5E4] rounded-2xl p-8 flex flex-col gap-5 shadow-sm will-change-transform">
                 <div className="flex gap-1">
                   {Array.from({ length: r.stars }).map((_, j) => (
                     <Star key={j} className="w-4 h-4 text-amber-400 fill-amber-400" />
@@ -246,10 +233,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── FINAL CTA ── */}
       <section className="py-24 px-6 bg-[#F5F5F4]">
         <motion.div {...fadeUp()}
-          className="max-w-4xl mx-auto rounded-3xl overflow-hidden relative"
+          className="max-w-4xl mx-auto rounded-3xl overflow-hidden relative will-change-transform"
           style={{ background: "linear-gradient(135deg,#1a2a4a 0%,#0f172a 60%,#0a0a0a 100%)" }}>
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[200px] bg-blue-600/20 blur-[80px] pointer-events-none" />
           <div className="relative z-10 flex flex-col items-center text-center px-8 py-20 gap-8 text-white">
