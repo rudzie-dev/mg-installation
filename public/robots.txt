@@ -1,4 +1,25 @@
+# ── Standard Search Engines (Google, Bing, Yahoo) ──
 User-agent: *
 Allow: /
 
+# ── AI & LLM Crawlers (Explicitly Allowed for AIO) ──
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+# ── Sitemap Location ──
 Sitemap: https://www.mginstallations.co.za/sitemap.xml
