@@ -6,7 +6,7 @@ import Footer from "../components/layout/Footer";
 import { Cctv, Satellite, Tv, Wrench, Phone, ShieldCheck, BadgeCheck, Zap, Star, ArrowRight } from "lucide-react";
 
 const WA_NUMBER = "27606038238";
-const WA_MESSAGE = encodeURIComponent("Hi MG Installations! I'd like to get a free quote.");
+const WA_MESSAGE = encodeURIComponent("Hi Raja! I'd like to get a free quote.");
 
 const WA_ICON = ({ className = "w-5 h-5 flex-shrink-0" }) => (
   <svg viewBox="0 0 32 32" fill="currentColor" className={className} aria-hidden="true">
@@ -21,10 +21,10 @@ const TRUST_BADGES = [
 ];
 
 const SERVICES = [
-  { icon: Cctv,      title: "CCTV Systems",      desc: "Zero blind spots. Clean wiring, remote phone access, and full HD night vision.",  img: "/images/ColorVu-Camera.webp", path: "/services/cctv" },
-  { icon: Satellite, title: "DSTV & Signal",      desc: "Precision dish alignment for zero dropout, Smart LNB routing, decoder setup.",    img: "/images/Dstv1.webp",           path: "/services/dstv" },
-  { icon: Tv,        title: "TV Wall Mounting",   desc: "Perfectly level structural mounts with every cable buried out of sight.",          img: "/images/TV-Mount.webp",        path: "/services/tv-mounting" },
-  { icon: Wrench,    title: "Repairs & Callouts", desc: "Rapid Ladysmith callouts to fix broken cameras, faulty signal, and dead tech.",   img: "/images/Installer.webp",       path: "/services/repairs" },
+  { icon: Cctv,      title: "CCTV Systems",      desc: "Zero blind spots. Clean wiring, remote phone access, and full HD night vision.",  baseImg: "/images/CCTV", path: "/services/cctv" },
+  { icon: Satellite, title: "DSTV & Signal",      desc: "Precision dish alignment for zero dropout, Smart LNB routing, decoder setup.",    baseImg: "/images/DSTV", path: "/services/dstv" },
+  { icon: Tv,        title: "TV Wall Mounting",   desc: "Perfectly level structural mounts with every cable buried out of sight.",          baseImg: "/images/TVMount", path: "/services/tv-mounting" },
+  { icon: Wrench,    title: "Repairs & Callouts", desc: "Rapid Ladysmith callouts to fix broken cameras, faulty signal, and dead tech.",   baseImg: "/images/Raja", path: "/services/repairs" },
 ];
 
 const REVIEWS = [
@@ -54,46 +54,12 @@ export default function HomePage() {
       document.head.appendChild(metaDesc);
     }
     metaDesc.content = "Fast, professional installations in uMnambithi, Ladysmith & surrounding areas. Specializing in CCTV, DSTV, Gate Motors, and TV Wall Mounting. Get a free quote today.";
-
-    const schemaId = "mg-installations-schema";
-    let script = document.getElementById(schemaId);
-    if (!script) {
-      script = document.createElement("script");
-      script.id = schemaId;
-      script.type = "application/ld+json";
-      script.innerHTML = JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "MG Installations",
-        "url": "https://www.mginstallations.co.za",
-        "telephone": "0606038238",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "Shop 19, Game Centre",
-          "addressLocality": "Ladysmith",
-          "addressRegion": "KZN",
-          "addressCountry": "ZA"
-        },
-        "openingHoursSpecification": {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-          "opens": "07:00",
-          "closes": "18:00"
-        }
-      });
-      document.head.appendChild(script);
-    }
-    return () => {
-      const existingScript = document.getElementById(schemaId);
-      if (existingScript) existingScript.remove();
-    };
   }, []);
 
   return (
     <div className="bg-[#F5F5F4] text-[#1C1917] min-h-screen overflow-x-hidden font-sans">
       <Navbar />
 
-      {/* ── MAIN LANDMARK ADDED HERE ── */}
       <main>
         <section className="relative min-h-screen w-full flex items-center pt-20 pb-16 overflow-hidden">
           <div className="absolute inset-0 hidden md:flex items-center overflow-hidden pointer-events-none select-none z-0" aria-hidden="true">
@@ -105,13 +71,13 @@ export default function HomePage() {
               <motion.div initial={{ opacity: 0, x: -32 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}>
                 <div className="inline-flex items-center gap-2 mb-6 bg-[#1C1917] text-white px-3 py-1.5 rounded-full w-fit">
                   <ShieldCheck className="w-3.5 h-3.5 text-[#2563EB]" aria-hidden="true" />
-                  <span className="font-bold text-[10px] uppercase tracking-widest">Ladysmith's Trusted Installer</span>
+                  <span className="font-bold text-[10px] uppercase tracking-widest">Led by Master Installer, Raja</span>
                 </div>
                 <h1 className="text-4xl sm:text-5xl xl:text-[3.2rem] font-bold tracking-tight leading-[1.08] mb-6 text-[#1C1917]">
                   Expert Installations<br />in <span className="text-[#2563EB]">uMnambithi</span> &<br />Surrounding Areas.
                 </h1>
                 <p className="text-lg text-[#57534E] leading-relaxed mb-10 max-w-md">
-                  Quality workmanship, transparent pricing, and zero delays. Get your project sorted today.
+                  Quality workmanship, transparent pricing, and zero delays. Get your project sorted today with Raja and the team.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
                   {TRUST_BADGES.map(({ icon: Icon, label }) => (
@@ -133,20 +99,18 @@ export default function HomePage() {
                     <WA_ICON className="w-11 h-11" />
                   </div>
                   <div>
-                    {/* ── HEADING FIXED TO H2 ── */}
                     <h2 className="text-2xl font-black mb-2 tracking-tight text-[#1C1917]">Get a Free Quote</h2>
-                    <p className="text-sm text-[#78716C] leading-relaxed">Message us on WhatsApp — we reply in minutes.</p>
+                    <p className="text-sm text-[#78716C] leading-relaxed">Message Raja on WhatsApp — he replies in minutes.</p>
                   </div>
                   <motion.a href={`https://wa.me/${WA_NUMBER}?text=${WA_MESSAGE}`} target="_blank" rel="noopener noreferrer"
-                    aria-label="Message MG Installations on WhatsApp"
+                    aria-label="Message Raja on WhatsApp"
                     whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
                     className="w-full py-4 px-6 rounded-2xl font-black text-white text-lg flex items-center justify-center gap-3 shadow-lg shadow-green-500/25"
                     style={{ background: "linear-gradient(135deg,#25D366 0%,#128C7E 100%)" }}>
-                    <WA_ICON /> Message on WhatsApp
+                    <WA_ICON /> Message Raja
                   </motion.a>
                   <div className="w-full flex items-center gap-3">
                     <div className="flex-1 h-px bg-[#E7E5E4]" />
-                    {/* ── CONTRAST FIXED (#78716C instead of #A8A29E) ── */}
                     <span className="text-xs text-[#78716C] font-bold uppercase tracking-wider">or call directly</span>
                     <div className="flex-1 h-px bg-[#E7E5E4]" />
                   </div>
@@ -154,7 +118,6 @@ export default function HomePage() {
                     className="w-full py-3.5 px-6 rounded-2xl font-bold text-[#1C1917] text-base border border-[#E7E5E4] bg-[#F5F5F4] hover:bg-[#ECEAE8] transition-colors flex items-center justify-center gap-2">
                     <Phone className="w-4 h-4 text-[#57534E]" aria-hidden="true" /> 060 603 8238
                   </a>
-                  {/* ── CONTRAST FIXED ── */}
                   <p className="text-xs text-[#78716C] font-medium">⚡ Usually replies in under 5 minutes</p>
                 </div>
               </motion.div>
@@ -165,8 +128,8 @@ export default function HomePage() {
         <section id="services" className="py-24 px-6 bg-white">
           <div className="max-w-7xl mx-auto">
             <motion.div {...fadeUp()} className="mb-14">
-              <p className="text-xs text-[#2563EB] font-bold uppercase tracking-widest mb-3">What I Do</p>
-              <h2 className="font-black text-4xl md:text-5xl tracking-tight text-[#1C1917]">Everything I handle.</h2>
+              <p className="text-xs text-[#2563EB] font-bold uppercase tracking-widest mb-3">What We Do</p>
+              <h2 className="font-black text-4xl md:text-5xl tracking-tight text-[#1C1917]">Everything Raja handles.</h2>
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -177,8 +140,14 @@ export default function HomePage() {
                     onClick={() => navigate(s.path)}
                     className="group relative rounded-2xl overflow-hidden bg-[#F5F5F4] border border-[#E7E5E4] hover:shadow-xl hover:shadow-black/8 transition-all duration-300 cursor-pointer will-change-transform">
                     <div className="relative h-48 overflow-hidden">
-                      <img src={s.img} alt={s.title}
-                        className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-500" />
+                      {/* Responsive Image Update */}
+                      <img 
+                        src={`${s.baseImg}-1200px.webp`} 
+                        srcSet={`${s.baseImg}-400px.webp 400w, ${s.baseImg}-800px.webp 800w, ${s.baseImg}-1200px.webp 1200w`}
+                        sizes="(max-width: 600px) 400px, (max-width: 1024px) 800px, 1200px"
+                        alt={s.title} width="800" height="600" loading="lazy" decoding="async"
+                        className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-500" 
+                      />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#1C1917]/70 via-transparent to-transparent" />
                       <div className="absolute top-4 left-4 w-10 h-10 rounded-xl bg-[#2563EB] flex items-center justify-center shadow-md">
                         <Icon className="w-5 h-5 text-white" aria-hidden="true" />
@@ -200,7 +169,7 @@ export default function HomePage() {
                   <ArrowRight className="w-5 h-5" aria-hidden="true" />
                 </div>
                 <p className="text-sm font-semibold text-center text-[#78716C] group-hover:text-[#1C1917] transition-colors">
-                  Have a different job?<br /><span className="text-[#2563EB]">Ask me on WhatsApp</span>
+                  Have a different job?<br /><span className="text-[#2563EB]">Ask Raja on WhatsApp</span>
                 </p>
               </motion.a>
             </div>
@@ -254,11 +223,11 @@ export default function HomePage() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 w-full max-w-sm">
                 <motion.a href={`https://wa.me/${WA_NUMBER}?text=${WA_MESSAGE}`} target="_blank" rel="noopener noreferrer"
-                  aria-label="Message MG Installations on WhatsApp"
+                  aria-label="Message Raja on WhatsApp"
                   whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
                   className="flex-1 py-4 rounded-2xl font-black text-white flex items-center justify-center gap-2 shadow-lg shadow-green-500/20 text-sm"
                   style={{ background: "linear-gradient(135deg,#25D366 0%,#128C7E 100%)" }}>
-                  <WA_ICON /> WhatsApp Us
+                  <WA_ICON /> WhatsApp Raja
                 </motion.a>
                 <a href="tel:0606038238" aria-label="Call MG Installations directly at 060 603 8238"
                   className="flex-1 py-4 rounded-2xl font-black text-white border border-white/15 bg-white/5 hover:bg-white/10 transition-colors flex items-center justify-center gap-2 text-sm">

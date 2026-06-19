@@ -5,12 +5,12 @@ import Footer from "../components/layout/Footer";
 import { Loader2 } from "lucide-react";
 
 const PORTFOLIO_ITEMS = [
-  { id: 1, title: "Commercial Security Feed",  category: "cctv",     img: "/images/ColorVu-Camera.webp",       desc: "ColorVu night-vision deployment at Ladysmith depot." },
-  { id: 2, title: "Precision Dish Alignment",  category: "dstv",     img: "/images/Dstv1.webp",                desc: "Rooftop multi-switch setup for residential complex." },
-  { id: 3, title: "Clean Media Wall",          category: "mounting",  img: "/images/TV-Mount.webp",             desc: "Cable-free floating TV mount on brick wall." },
-  { id: 4, title: "Hybrid Camera Matrix",      category: "cctv",     img: "/images/Hybrid-Dome-Camera.webp",   desc: "Vandal-proof dome cameras for retail storefront." },
-  { id: 5, title: "On-Site Installation",      category: "cctv",     img: "/images/Installer.webp",            desc: "Full camera run and termination at commercial site." },
-  { id: 6, title: "Hardware Supply & Setup",   category: "dstv",     img: "/images/Farhan-hardware.webp",      desc: "Decoder and LNB sourcing with same-day setup." },
+  { id: 1, title: "Commercial Security Feed",  category: "cctv",     baseImg: "/images/CCTV",     desc: "ColorVu night-vision deployment at Ladysmith depot." },
+  { id: 2, title: "Precision Dish Alignment",  category: "dstv",     baseImg: "/images/DSTV",     desc: "Rooftop multi-switch setup for residential complex." },
+  { id: 3, title: "Clean Media Wall",          category: "mounting", baseImg: "/images/TVMount",  desc: "Cable-free floating TV mount on brick wall." },
+  { id: 4, title: "Hybrid Camera Matrix",      category: "cctv",     baseImg: "/images/CCTV2",    desc: "Vandal-proof dome cameras for retail storefront." },
+  { id: 5, title: "On-Site Installation",      category: "cctv",     baseImg: "/images/Raja",     desc: "Full camera run and termination at commercial site." },
+  { id: 6, title: "Hardware Supply & Setup",   category: "dstv",     baseImg: "/images/Raja2",    desc: "Decoder and LNB sourcing with same-day setup." },
 ];
 
 const CATEGORIES = [
@@ -33,56 +33,37 @@ export default function PortfolioPage() {
 
   const filtered = active === "all" ? PORTFOLIO_ITEMS : PORTFOLIO_ITEMS.filter(i => i.category === active);
 
-  // Helper function to physically load images into browser cache
   const preloadImages = (items) => {
     return items.map(item => {
       return new Promise((resolve) => {
         const img = new Image();
-        img.src = item.img;
+        img.src = `${item.baseImg}-1200px.webp`; // Preload largest size to ensure cache hits
         img.onload = resolve;
-        img.onerror = resolve; // Resolve anyway to prevent infinite loading if an image breaks
+        img.onerror = resolve;
       });
     });
   };
 
-  // Initial Page Mount Loader
   useEffect(() => {
     let isMounted = true;
-    
     const loadInitialAssets = async () => {
-      // 1. Minimum visual delay
       const delayPromise = new Promise(resolve => setTimeout(resolve, 600));
-      // 2. Actual image loading
       const imagePromises = preloadImages(PORTFOLIO_ITEMS);
-      
-      // Wait for both to finish completely
       await Promise.all([delayPromise, ...imagePromises]);
-      
       if (isMounted) setIsLoading(false);
     };
-
     loadInitialAssets();
     return () => { isMounted = false; };
   }, []);
 
   const handleFilter = async (categoryId) => {
     if (categoryId === active || isLoading) return;
-    
     setIsLoading(true);
     setActive(categoryId); 
-
-    // Calculate the new items that need to be loaded
     const newItems = categoryId === "all" ? PORTFOLIO_ITEMS : PORTFOLIO_ITEMS.filter(i => i.category === categoryId);
-    
-    // 1. Intentional minimum delay
     const delayPromise = new Promise(resolve => setTimeout(resolve, 600));
-    
-    // 2. Actual image loading
     const imagePromises = preloadImages(newItems);
-
-    // Halt the UI until the delay passes AND all new images are fully downloaded
     await Promise.all([delayPromise, ...imagePromises]);
-    
     setIsLoading(false);
   };
 
@@ -98,11 +79,10 @@ export default function PortfolioPage() {
             Our <span className="text-[#2563EB]">Work.</span>
           </h1>
           <p className="text-[#57534E] text-lg leading-relaxed">
-            A selection of clean, technical deployments across residential and commercial sites in Ladysmith.
+            A selection of clean, technical deployments across residential and commercial sites in Ladysmith, personally installed by Raja.
           </p>
         </motion.div>
 
-        {/* Filters */}
         <motion.div {...fadeUp(0.1)} className="flex flex-wrap gap-2 mb-12">
           {CATEGORIES.map(cat => (
             <button key={cat.id} onClick={() => handleFilter(cat.id)}
@@ -117,11 +97,9 @@ export default function PortfolioPage() {
           ))}
         </motion.div>
 
-        {/* Grid Area */}
         <div className="min-h-[400px]">
           <AnimatePresence mode="wait">
             {isLoading ? (
-              // Loader State
               <motion.div 
                 key="loader"
                 initial={{ opacity: 0 }}
@@ -133,7 +111,6 @@ export default function PortfolioPage() {
                 <Loader2 className="w-10 h-10 text-[#2563EB] animate-spin" />
               </motion.div>
             ) : (
-              // Grid State
               <motion.div 
                 key="grid"
                 initial={{ opacity: 0 }}
@@ -149,8 +126,14 @@ export default function PortfolioPage() {
                     transition={{ duration: 0.4, delay: i * 0.05 }}
                     className="group bg-white border border-[#E7E5E4] rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-black/8 transition-all duration-300">
                     <div className="relative h-52 overflow-hidden">
-                      <img src={item.img} alt={item.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 will-change-transform" />
+                      {/* Responsive Image Update */}
+                      <img 
+                        src={`${item.baseImg}-1200px.webp`} 
+                        srcSet={`${item.baseImg}-400px.webp 400w, ${item.baseImg}-800px.webp 800w, ${item.baseImg}-1200px.webp 1200w`}
+                        sizes="(max-width: 600px) 400px, (max-width: 1024px) 800px, 1200px"
+                        alt={item.title} width="800" height="600" loading="lazy" decoding="async"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 will-change-transform" 
+                      />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#1C1917]/50 via-transparent to-transparent" />
                       <span className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm text-[#1C1917] text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full border border-white/40">
                         {CATEGORIES.find(c => c.id === item.category)?.label}
