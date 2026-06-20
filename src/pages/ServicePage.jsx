@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { motion } from "framer-motion";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+import ReviewsSection from "../components/ui/ReviewsSection"; // Added the new import here
 import { Phone, Star, Cctv, Satellite, Tv, Wrench, Shield, Smartphone, Cable, Eye, HardDrive, ShieldCheck } from "lucide-react";
 
 const WA_ICON = () => (
@@ -29,7 +30,6 @@ export const SERVICES = {
       { icon: ShieldCheck, title: "Full Commissioning",    desc: "Cameras tested, angles set, and playback verified before we go." },
     ],
     gallery: ["/images/CCTV", "/images/CCTV2", "/images/CCTV3"],
-    review: { text: "Raja sorted our CCTV the same day I called. The wiring is invisible and the phone app works perfectly.", name: "Thabo M.", location: "Ladysmith" },
     cta: "Ready to secure your property?",
   },
   dstv: {
@@ -47,7 +47,6 @@ export const SERVICES = {
       { icon: ShieldCheck, title: "Same-Day Service",       desc: "Most DSTV jobs are completed within a few hours of your call." },
     ],
     gallery: ["/images/DSTV", "/images/Raja3"],
-    review: { text: "My DSTV signal has been flawless since Raja came out. He fixed everything properly.", name: "Priya N.", location: "Ladysmith" },
     cta: "Ready for crystal-clear signal?",
   },
   tvmounting: {
@@ -65,7 +64,6 @@ export const SERVICES = {
       { icon: ShieldCheck, title: "Any Wall Type",         desc: "Brick, drywall, or concrete — we have the right fixings for each." },
     ],
     gallery: ["/images/TVMount", "/images/Raja4"],
-    review: { text: "Looks like it came out of a showroom. No cables visible at all — I didn't think that was possible.", name: "Sipho K.", location: "Steadville" },
     cta: "Ready for a clean, cable-free setup?",
   },
   repairs: {
@@ -83,7 +81,6 @@ export const SERVICES = {
       { icon: Wrench, title: "Parts On Hand",         desc: "We carry common replacement parts so most jobs finish in one visit." },
     ],
     gallery: ["/images/Raja", "/images/Raja5"],
-    review: { text: "Called at 9am, Raja was here by 11. Fixed a camera that two other guys couldn't sort out.", name: "Farhan A.", location: "Ladysmith" },
     cta: "Need something fixed today?",
   },
 };
@@ -229,26 +226,8 @@ export default function ServicePage({ service }) {
           </section>
         )}
 
-        {/* ── 4. REVIEW ── */}
-        <section className="py-24 px-6 md:px-12 bg-white">
-          <div className="max-w-3xl mx-auto">
-            <motion.div {...fadeUp()} className="bg-[#F5F5F4] border border-[#E7E5E4] rounded-2xl p-10 flex flex-col gap-5">
-              <div className="flex gap-1">
-                {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 text-amber-400 fill-amber-400" aria-hidden="true" />)}
-              </div>
-              <p className="text-xl text-[#1C1917] font-medium leading-relaxed">"{s.review.text}"</p>
-              <div className="flex items-center gap-3 pt-2 border-t border-[#E7E5E4]">
-                <div className="w-9 h-9 rounded-full bg-[#EFF6FF] border border-blue-100 flex items-center justify-center text-[#2563EB] font-black text-sm">
-                  {s.review.name[0]}
-                </div>
-                <div>
-                  <p className="font-bold text-sm text-[#1C1917]">{s.review.name}</p>
-                  <p className="text-xs text-[#A8A29E]">{s.review.location}</p>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </section>
+        {/* ── 4. LIVE REVIEWS (Pulled from Google Sheets via component) ── */}
+        <ReviewsSection />
 
         {/* ── 5. FINAL CTA ── */}
         <section className="py-24 px-6 md:px-12 bg-[#F5F5F4]">
