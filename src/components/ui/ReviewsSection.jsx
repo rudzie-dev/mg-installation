@@ -17,7 +17,11 @@ const fadeUp = (delay = 0) => ({
   transition: { duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] },
 });
 
-export default function ReviewsSection() {
+export default function ReviewsSection({ 
+  title = "People talk.", 
+  limit = 4, 
+  filterKeyword = "" 
+}) {
   const [reviews, setReviews] = useState([]);
   const [isLoadingReviews, setIsLoadingReviews] = useState(true);
 
@@ -55,6 +59,21 @@ export default function ReviewsSection() {
     fetchLiveReviews();
   }, []);
 
+  // Filtering Logic
+  let displayData = reviews;
+  if (filterKeyword) {
+    const filtered = reviews.filter(r => 
+      r.service && r.service.toLowerCase().includes(filterKeyword.toLowerCase())
+    );
+    // If we find matching reviews, use them. If not, fallback to all reviews so it doesn't look broken.
+    if (filtered.length > 0) {
+      displayData = filtered;
+    }
+  }
+  
+  // Limit the results
+  displayData = displayData.slice(0, limit);
+
   return (
     <section className="py-24 px-6 bg-[#F5F5F4]">
       <div className="max-w-7xl mx-auto">
@@ -63,13 +82,14 @@ export default function ReviewsSection() {
             <p className="text-xs text-[#2563EB] font-bold uppercase tracking-widest mb-3 flex items-center gap-2">
               <ShieldCheck className="w-3.5 h-3.5" /> Verified Google Reviews
             </p>
-            <h2 className="font-black text-4xl md:text-5xl tracking-tight text-[#1C1917]">People talk.</h2>
+            <h2 className="font-black text-4xl md:text-5xl tracking-tight text-[#1C1917]">{title}</h2>
           </div>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Dynamic Grid: If limit is 1, it centers perfectly. Otherwise, it uses 2 columns. */}
+        <div className={`grid grid-cols-1 gap-6 ${limit === 1 ? 'max-w-3xl mx-auto' : 'md:grid-cols-2'}`}>
           {isLoadingReviews ? (
-            Array.from({ length: 4 }).map((_, i) => (
+            Array.from({ length: limit }).map((_, i) => (
               <motion.div key={`skeleton-${i}`} {...fadeUp(i * 0.1)} 
                 className="bg-white border border-[#E7E5E4] rounded-2xl p-8 flex flex-col gap-5 shadow-sm animate-pulse">
                 <div className="flex gap-1">
@@ -92,7 +112,7 @@ export default function ReviewsSection() {
               </motion.div>
             ))
           ) : (
-            reviews.slice(0, 4).map((r, i) => {
+            displayData.map((r, i) => {
               const fullName = r.surname ? `${r.name} ${r.surname}` : r.name;
               const starCount = parseInt(r.stars) || 5;
 
