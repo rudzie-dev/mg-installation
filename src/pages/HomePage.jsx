@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
@@ -27,11 +27,12 @@ const SERVICES = [
   { icon: Wrench,    title: "Repairs & Callouts", desc: "Rapid Ladysmith callouts to fix broken cameras, faulty signal, and dead tech.",   baseImg: "/images/Raja", path: "/services/repairs" },
 ];
 
-const REVIEWS = [
-  { name: "Sibusiso Ndlovu",  service: "CCTV Installation", stars: 5, text: "Professional service. They were on time and did a clean installation of my CCTV cameras. Highly recommended for anyone in Ladysmith." },
-  { name: "Sarah Miller",  service: "DSTV & CCTV", stars: 5, text: "Best DSTV and CCTV installer in Ladysmith. Very knowledgeable and explained everything clearly. Great value for money." },
-  { name: "Johan Pretorius",  service: "Gate Motors", stars: 5, text: "Great communication and fair pricing. Very happy with the gate motor installation. Clean work and very reliable." },
-  { name: "Thabo Mokoena",  service: "TV Wall Mounting", stars: 5, text: "Excellent TV wall mounting. Looks very neat with no cables showing. Would definitely use MG Installation again." }
+// Fallback reviews to prevent layout shift while the Google Sheet loads
+const DEFAULT_REVIEWS = [
+  { name: "Sibusiso", surname: "Ndlovu",  service: "CCTV Installation", stars: 5, text: "Professional service. They were on time and did a clean installation of my CCTV cameras. Highly recommended for anyone in Ladysmith." },
+  { name: "Sarah", surname: "Miller",  service: "DSTV & CCTV", stars: 5, text: "Best DSTV and CCTV installer in Ladysmith. Very knowledgeable and explained everything clearly. Great value for money." },
+  { name: "Johan", surname: "Pretorius",  service: "Gate Motors", stars: 5, text: "Great communication and fair pricing. Very happy with the gate motor installation. Clean work and very reliable." },
+  { name: "Thabo", surname: "Mokoena",  service: "TV Wall Mounting", stars: 5, text: "Excellent TV wall mounting. Looks very neat with no cables showing. Would definitely use MG Installation again." }
 ];
 
 const fadeUp = (delay = 0) => ({
@@ -44,7 +45,9 @@ const fadeUp = (delay = 0) => ({
 
 export default function HomePage() {
   const navigate = useNavigate();
+  const [reviews, setReviews] = useState(DEFAULT_REVIEWS);
 
+  // Initial Setup & SEO
   useEffect(() => {
     document.title = "MG Installations | Expert CCTV, DSTV & TV Mounting in uMnambithi";
     let metaDesc = document.querySelector('meta[name="description"]');
@@ -56,11 +59,43 @@ export default function HomePage() {
     metaDesc.content = "Fast, professional installations in uMnambithi, Ladysmith & surrounding areas. Specializing in CCTV, DSTV, Gate Motors, and TV Wall Mounting. Get a free quote today.";
   }, []);
 
+  // Serverless Fetch from Google Sheets
+  useEffect(() => {
+    const fetchLiveReviews = async () => {
+      try {
+        const cachedData = localStorage.getItem('mg_reviews_cache');
+        const cacheTimestamp = localStorage.getItem('mg_reviews_timestamp');
+        const now = new Date().getTime();
+
+        // If we fetched recently (within 24 hours), use the cached version to save bandwidth
+        if (cachedData && cacheTimestamp && now - cacheTimestamp < 86400000) {
+          setReviews(JSON.parse(cachedData));
+          return;
+        }
+
+        // Fetch fresh data from the Google Apps Script Web App
+        const res = await fetch("https://script.google.com/macros/s/AKfycbxq_U8w6VA7GFq1_k1ujRDST_WLQXt6IQjBvfdGTMzpjTHn0Vp6VRi0bbRy6ABa4lAjzQ/exec");
+        const data = await res.json();
+
+        if (data && data.length > 0) {
+          setReviews(data);
+          localStorage.setItem('mg_reviews_cache', JSON.stringify(data));
+          localStorage.setItem('mg_reviews_timestamp', now.toString());
+        }
+      } catch (error) {
+        console.error("Could not fetch live reviews. Using fallbacks.");
+      }
+    };
+    
+    fetchLiveReviews();
+  }, []);
+
   return (
     <div className="bg-[#F5F5F4] text-[#1C1917] min-h-screen overflow-x-hidden font-sans">
       <Navbar />
 
       <main>
+        {/* ── HERO SECTION ── */}
         <section className="relative min-h-screen w-full flex items-center pt-20 pb-16 overflow-hidden">
           <div className="absolute inset-0 hidden md:flex items-center overflow-hidden pointer-events-none select-none z-0" aria-hidden="true">
             <span className="font-black text-[22vw] leading-none tracking-tighter text-[#ECEAE8] whitespace-nowrap">MG</span>
@@ -125,6 +160,7 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* ── SERVICES GRID ── */}
         <section id="services" className="py-24 px-6 bg-white">
           <div className="max-w-7xl mx-auto">
             <motion.div {...fadeUp()} className="mb-14">
@@ -140,7 +176,6 @@ export default function HomePage() {
                     onClick={() => navigate(s.path)}
                     className="group relative rounded-2xl overflow-hidden bg-[#F5F5F4] border border-[#E7E5E4] hover:shadow-xl hover:shadow-black/8 transition-all duration-300 cursor-pointer will-change-transform">
                     <div className="relative h-48 overflow-hidden">
-                      {/* Responsive Image Update */}
                       <img 
                         src={`${s.baseImg}-1200px.webp`} 
                         srcSet={`${s.baseImg}-400px.webp 400w, ${s.baseImg}-800px.webp 800w, ${s.baseImg}-1200px.webp 1200w`}
@@ -176,38 +211,49 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* ── LIVE REVIEWS SECTION ── */}
         <section className="py-24 px-6 bg-[#F5F5F4]">
           <div className="max-w-7xl mx-auto">
-            <motion.div {...fadeUp()} className="mb-14">
-              <p className="text-xs text-[#2563EB] font-bold uppercase tracking-widest mb-3">Client Reviews</p>
-              <h2 className="font-black text-4xl md:text-5xl tracking-tight text-[#1C1917]">People talk.</h2>
+            <motion.div {...fadeUp()} className="mb-14 flex items-center justify-between">
+              <div>
+                <p className="text-xs text-[#2563EB] font-bold uppercase tracking-widest mb-3 flex items-center gap-2">
+                  <ShieldCheck className="w-3.5 h-3.5" /> Verified Google Reviews
+                </p>
+                <h2 className="font-black text-4xl md:text-5xl tracking-tight text-[#1C1917]">People talk.</h2>
+              </div>
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {REVIEWS.map((r, i) => (
-                <motion.div key={i} {...fadeUp(i * 0.1)}
-                  className="bg-white border border-[#E7E5E4] rounded-2xl p-8 flex flex-col gap-5 shadow-sm will-change-transform">
-                  <div className="flex gap-1">
-                    {Array.from({ length: r.stars }).map((_, j) => (
-                      <Star key={j} className="w-4 h-4 text-amber-400 fill-amber-400" aria-hidden="true" />
-                    ))}
-                  </div>
-                  <p className="text-[#1C1917] leading-relaxed text-[15px]">"{r.text}"</p>
-                  <div className="flex items-center gap-3 pt-2 border-t border-[#E7E5E4]">
-                    <div className="w-9 h-9 rounded-full bg-[#EFF6FF] border border-blue-100 flex items-center justify-center text-[#2563EB] font-black text-sm">
-                      {r.name[0]}
+              {reviews.slice(0, 4).map((r, i) => {
+                const fullName = r.surname ? `${r.name} ${r.surname}` : r.name;
+                const starCount = parseInt(r.stars) || 5;
+
+                return (
+                  <motion.div key={i} {...fadeUp(i * 0.1)}
+                    className="bg-white border border-[#E7E5E4] rounded-2xl p-8 flex flex-col gap-5 shadow-sm will-change-transform">
+                    <div className="flex gap-1">
+                      {Array.from({ length: starCount }).map((_, j) => (
+                        <Star key={j} className="w-4 h-4 text-amber-400 fill-amber-400" aria-hidden="true" />
+                      ))}
                     </div>
-                    <div>
-                      <p className="font-bold text-sm text-[#1C1917]">{r.name}</p>
-                      <p className="text-xs text-[#78716C]">{r.service}</p>
+                    <p className="text-[#1C1917] leading-relaxed text-[15px]">"{r.text}"</p>
+                    <div className="flex items-center gap-3 pt-2 border-t border-[#E7E5E4]">
+                      <div className="w-9 h-9 rounded-full bg-[#EFF6FF] border border-blue-100 flex items-center justify-center text-[#2563EB] font-black text-sm uppercase">
+                        {r.name ? r.name[0] : "C"}
+                      </div>
+                      <div>
+                        <p className="font-bold text-sm text-[#1C1917]">{fullName}</p>
+                        <p className="text-xs text-[#78716C]">{r.service}</p>
+                      </div>
                     </div>
-                  </div>
-                </motion.div>
-              ))}
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </section>
 
+        {/* ── CTA SECTION ── */}
         <section className="py-24 px-6 bg-[#F5F5F4]">
           <motion.div {...fadeUp()}
             className="max-w-4xl mx-auto rounded-3xl overflow-hidden relative will-change-transform"
