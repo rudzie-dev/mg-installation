@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { motion } from "framer-motion";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
-import ReviewsSection from "../components/ui/ReviewsSection";
 import { Phone, Star, Cctv, Satellite, Tv, Wrench, Shield, Smartphone, Cable, Eye, HardDrive, ShieldCheck } from "lucide-react";
 
 const WA_ICON = () => (
@@ -17,7 +16,6 @@ const mkWA = (msg) => `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)
 export const SERVICES = {
   cctv: {
     slug: "cctv",
-    keyword: "cctv",
     h1: "Professional CCTV Installation in uMnambithi & Surrounds",
     titleTag: "CCTV Installation in uMnambithi | MG Installations",
     sub: "Crystal-clear HD vision, zero blind spots, and full remote mobile viewing — installed and configured the same day by Raja.",
@@ -35,7 +33,6 @@ export const SERVICES = {
   },
   dstv: {
     slug: "dstv",
-    keyword: "dstv",
     h1: "Professional DSTV Installation in uMnambithi & Surrounds",
     titleTag: "DSTV Installer in uMnambithi | MG Installations",
     sub: "Precision dish alignment, Smart LNB routing, and full decoder setup — zero signal dropout guaranteed.",
@@ -53,7 +50,6 @@ export const SERVICES = {
   },
   tvmounting: {
     slug: "tvmounting",
-    keyword: "tv",
     h1: "Professional TV Wall Mounting in uMnambithi & Surrounds",
     titleTag: "TV Wall Mounting in uMnambithi | MG Installations",
     sub: "Perfectly level structural mounts with every cable buried completely out of sight.",
@@ -71,7 +67,6 @@ export const SERVICES = {
   },
   repairs: {
     slug: "repairs",
-    keyword: "repair",
     h1: "CCTV & DSTV Repairs and Callouts in uMnambithi & Surrounds",
     titleTag: "CCTV & DSTV Repairs in uMnambithi | MG Installations",
     sub: "Fast Ladysmith callouts to diagnose and fix broken cameras, lost signal, faulty gates, and dead tech — same day.",
@@ -230,14 +225,7 @@ export default function ServicePage({ service }) {
           </section>
         )}
 
-        {/* ── 4. LIVE REVIEW ── */}
-        <ReviewsSection 
-          title="Recent Client Feedback." 
-          limit={1} 
-          filterKeyword={s.keyword} 
-        />
-
-        {/* ── 5. FINAL CTA ── */}
+        {/* ── 4. FINAL CTA ── */}
         <section className="py-24 px-6 md:px-12 bg-[#F5F5F4]">
           <motion.div {...fadeUp()}
             className="max-w-4xl mx-auto rounded-3xl relative overflow-hidden text-white"
