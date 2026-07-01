@@ -123,7 +123,7 @@ export default function ServicePage({ service }) {
 
       <main>
         {/* ── 1. HERO ── */}
-        <section className="min-h-[85vh] flex items-center pt-28 pb-20 px-6 md:px-12 relative">
+        <section className="min-h-[85dvh] flex items-center pt-28 pb-20 px-6 md:px-12 relative">
           <div className="absolute inset-0 flex items-center overflow-hidden pointer-events-none select-none z-0" aria-hidden="true">
             <span className="font-black text-[22vw] leading-none tracking-tighter text-[#ECEAE8] whitespace-nowrap">MG</span>
           </div>

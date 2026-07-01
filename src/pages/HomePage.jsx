@@ -99,13 +99,13 @@ export default function HomePage() {
 
       <main>
         {/* ── HERO SECTION ── */}
-        <section className="relative min-h-screen w-full flex items-center pt-20 pb-16 overflow-hidden">
+        <section className="relative min-h-dvh w-full flex items-center pt-20 pb-10 md:pb-16 overflow-hidden">
           <div className="absolute inset-0 hidden md:flex items-center overflow-hidden pointer-events-none select-none z-0" aria-hidden="true">
             <span className="font-black text-[22vw] leading-none tracking-tighter text-[#ECEAE8] whitespace-nowrap">MG</span>
           </div>
 
           <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-20 items-center">
               <motion.div initial={{ opacity: 0, x: -32 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}>
                 <div className="inline-flex items-center gap-2 mb-6 bg-[#1C1917] text-white px-3 py-1.5 rounded-full w-fit">
                   <ShieldCheck className="w-3.5 h-3.5 text-[#2563EB]" aria-hidden="true" />
@@ -114,7 +114,7 @@ export default function HomePage() {
                 <h1 className="text-4xl sm:text-5xl xl:text-[3.2rem] font-bold tracking-tight leading-[1.08] mb-6 text-[#1C1917]">
                   Expert Installations<br />in <span className="text-[#2563EB]">uMnambithi</span> &<br />Surrounding Areas.
                 </h1>
-                <p className="text-lg text-[#57534E] leading-relaxed mb-10 max-w-md">
+                <p className="text-lg text-[#57534E] leading-relaxed mb-8 md:mb-10 max-w-md">
                   Quality workmanship, transparent pricing, and zero delays. Get your project sorted today with Raja and the team.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
@@ -130,8 +130,8 @@ export default function HomePage() {
               </motion.div>
 
               <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-                className="flex justify-center lg:justify-end mt-6 lg:mt-0 will-change-transform">
-                <div className="w-full max-w-sm bg-white rounded-3xl border border-[#E7E5E4] shadow-xl shadow-black/5 p-8 flex flex-col items-center text-center gap-6">
+                className="flex justify-center lg:justify-end mt-2 lg:mt-0 will-change-transform">
+                <div className="w-full max-w-sm bg-white rounded-3xl border border-[#E7E5E4] shadow-xl shadow-black/5 p-6 md:p-8 flex flex-col items-center text-center gap-4 md:gap-6">
                   <div className="w-20 h-20 rounded-2xl flex items-center justify-center text-white"
                     style={{ background: "linear-gradient(135deg,#25D366 0%,#128C7E 100%)" }}>
                     <WA_ICON className="w-11 h-11" />
