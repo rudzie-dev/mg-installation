@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "../components/layout/Navbar";
+import SEO from "../components/SEO";
 import { CheckCircle2, ArrowRight, ArrowLeft, Send } from "lucide-react";
 
 const fadeUp = { hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } } };
@@ -47,6 +48,11 @@ export default function FreeQuotePage() {
 
   return (
     <div className="bg-[#F8F9FA] text-[#202124] min-h-screen font-sans flex flex-col">
+      <SEO
+        title="Get a Free Quote | MG Installations Ladysmith"
+        description="Request a free quote for CCTV, DSTV, TV wall mounting, gate motors, or repairs in Ladysmith and surrounding areas. Fast response, no obligation."
+        path="/free-quote"
+      />
       <Navbar />
 
       <main className="pt-36 pb-32 px-6 md:px-12 max-w-4xl mx-auto w-full relative z-10 flex-grow">

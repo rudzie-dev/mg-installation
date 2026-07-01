@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+import SEO from "../components/SEO";
 import { Phone, MapPin, ArrowRight, CheckCircle } from "lucide-react";
 
 const WA_NUMBER = "27606038238";
@@ -38,6 +39,11 @@ export default function ContactPage() {
 
   return (
     <div className="bg-[#F5F5F4] text-[#1C1917] min-h-screen font-sans flex flex-col">
+      <SEO
+        title="Contact MG Installations | Ladysmith CCTV & DSTV Installer"
+        description="Call, WhatsApp, or send a message to MG Installations in Ladysmith. We respond fast and quote for free on CCTV, DSTV, TV mounting, and repairs."
+        path="/contact"
+      />
       <Navbar />
 
       <main className="pt-36 pb-24 px-6 md:px-12 max-w-7xl mx-auto w-full flex-grow">

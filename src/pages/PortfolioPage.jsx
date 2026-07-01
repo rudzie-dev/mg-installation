@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+import SEO from "../components/SEO";
 import { Loader2 } from "lucide-react";
 
 const PORTFOLIO_ITEMS = [
@@ -29,6 +30,8 @@ const fadeUp = (delay = 0) => ({
 
 export default function PortfolioPage() {
   const [active, setActive] = useState("all");
+  // Must match between server and client renders for hydration to succeed; the grid
+  // fills in client-side once images preload, same as before prerendering existed.
   const [isLoading, setIsLoading] = useState(true);
 
   const filtered = active === "all" ? PORTFOLIO_ITEMS : PORTFOLIO_ITEMS.filter(i => i.category === active);
@@ -69,6 +72,11 @@ export default function PortfolioPage() {
 
   return (
     <div className="bg-[#F5F5F4] text-[#1C1917] min-h-screen font-sans flex flex-col">
+      <SEO
+        title="Our Work | MG Installations Portfolio in Ladysmith"
+        description="A selection of clean, technical CCTV, DSTV, and TV mounting installations across residential and commercial sites in Ladysmith, personally installed by Raja."
+        path="/portfolio"
+      />
       <Navbar />
 
       <main className="pt-36 pb-24 px-6 md:px-12 max-w-7xl mx-auto w-full flex-grow">

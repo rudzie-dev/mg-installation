@@ -1,7 +1,7 @@
-import { useEffect } from "react";
 import { motion } from "framer-motion";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+import SEO from "../components/SEO";
 import { Phone, Star, Cctv, Satellite, Tv, Wrench, Shield, Smartphone, Cable, Eye, HardDrive, ShieldCheck } from "lucide-react";
 
 const WA_ICON = () => (
@@ -16,6 +16,7 @@ const mkWA = (msg) => `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)
 export const SERVICES = {
   cctv: {
     slug: "cctv",
+    path: "/services/cctv",
     h1: "Professional CCTV Installation in uMnambithi & Surrounds",
     titleTag: "CCTV Installation in uMnambithi | MG Installations",
     sub: "Crystal-clear HD vision, zero blind spots, and full remote mobile viewing — installed and configured the same day by Raja.",
@@ -33,6 +34,7 @@ export const SERVICES = {
   },
   dstv: {
     slug: "dstv",
+    path: "/services/dstv",
     h1: "Professional DSTV Installation in uMnambithi & Surrounds",
     titleTag: "DSTV Installer in uMnambithi | MG Installations",
     sub: "Precision dish alignment, Smart LNB routing, and full decoder setup — zero signal dropout guaranteed.",
@@ -50,6 +52,7 @@ export const SERVICES = {
   },
   tvmounting: {
     slug: "tvmounting",
+    path: "/services/tv-mounting",
     h1: "Professional TV Wall Mounting in uMnambithi & Surrounds",
     titleTag: "TV Wall Mounting in uMnambithi | MG Installations",
     sub: "Perfectly level structural mounts with every cable buried completely out of sight.",
@@ -67,6 +70,7 @@ export const SERVICES = {
   },
   repairs: {
     slug: "repairs",
+    path: "/services/repairs",
     h1: "CCTV & DSTV Repairs and Callouts in uMnambithi & Surrounds",
     titleTag: "CCTV & DSTV Repairs in uMnambithi | MG Installations",
     sub: "Fast Ladysmith callouts to diagnose and fix broken cameras, lost signal, faulty gates, and dead tech — same day.",
@@ -94,45 +98,27 @@ const fadeUp = (delay = 0) => ({
 
 export default function ServicePage({ service }) {
   const s = typeof service === "string" ? SERVICES[service] : service;
-  
-  useEffect(() => {
-    if (!s) return;
-    document.title = s.titleTag || `${s.h1} | MG Installations`;
-    let metaDesc = document.querySelector('meta[name="description"]');
-    if (!metaDesc) {
-      metaDesc = document.createElement('meta');
-      metaDesc.name = "description";
-      document.head.appendChild(metaDesc);
-    }
-    metaDesc.content = s.sub;
-
-    const schemaId = `schema-service-${s.slug}`;
-    let script = document.getElementById(schemaId);
-    if (!script) {
-      script = document.createElement("script");
-      script.id = schemaId;
-      script.type = "application/ld+json";
-      script.innerHTML = JSON.stringify({
-        "@context": "https://schema.org/",
-        "@type": "Service",
-        "serviceType": s.h1,
-        "provider": { "@type": "LocalBusiness", "name": "MG Installations" },
-        "areaServed": { "@type": "City", "name": "uMnambithi" },
-        "description": s.sub
-      });
-      document.head.appendChild(script);
-    }
-    return () => {
-      const existingScript = document.getElementById(schemaId);
-      if (existingScript) existingScript.remove();
-    };
-  }, [s]);
 
   if (!s) return null;
   const waHref = mkWA(s.waMsg);
 
+  const serviceSchema = {
+    "@context": "https://schema.org/",
+    "@type": "Service",
+    "serviceType": s.h1,
+    "provider": { "@type": "LocalBusiness", "name": "MG Installations" },
+    "areaServed": { "@type": "City", "name": "uMnambithi" },
+    "description": s.sub,
+  };
+
   return (
     <div className="bg-[#F5F5F4] text-[#1C1917] min-h-screen font-sans overflow-x-hidden">
+      <SEO
+        title={s.titleTag || `${s.h1} | MG Installations`}
+        description={s.sub}
+        path={s.path}
+        schema={serviceSchema}
+      />
       <Navbar />
 
       <main>

@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/utils/ScrollToTop";
 
 import HomePage       from "./pages/HomePage";
@@ -12,7 +12,7 @@ import RepairsPage    from "./pages/services/RepairsPage";
 
 export default function App() {
   return (
-    <Router>
+    <>
       <ScrollToTop />
       <Routes>
         <Route path="/"                     element={<HomePage />} />
@@ -24,6 +24,6 @@ export default function App() {
         <Route path="/services/tv-mounting" element={<TVMountingPage />} />
         <Route path="/services/repairs"     element={<RepairsPage />} />
       </Routes>
-    </Router>
+    </>
   );
 }

@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+import SEO from "../components/SEO";
 import { Cctv, Satellite, Tv, Wrench, Phone, ShieldCheck, BadgeCheck, Zap, Star, ArrowRight } from "lucide-react";
 
 const WA_NUMBER = "27606038238";
@@ -45,19 +46,11 @@ const fadeUp = (delay = 0) => ({
 
 export default function HomePage() {
   const navigate = useNavigate();
+  // Initial state must be identical on server and client — React hydration requires
+  // the client's first render to match the prerendered HTML exactly, so this can't be
+  // seeded differently per-environment. The reviews fill in client-side after mount.
   const [reviews, setReviews] = useState([]);
   const [isLoadingReviews, setIsLoadingReviews] = useState(true);
-
-  useEffect(() => {
-    document.title = "MG Installations | Expert CCTV, DSTV & TV Mounting in uMnambithi";
-    let metaDesc = document.querySelector('meta[name="description"]');
-    if (!metaDesc) {
-      metaDesc = document.createElement('meta');
-      metaDesc.name = "description";
-      document.head.appendChild(metaDesc);
-    }
-    metaDesc.content = "Fast, professional installations in uMnambithi, Ladysmith & surrounding areas. Specializing in CCTV, DSTV, Gate Motors, and TV Wall Mounting. Get a free quote today.";
-  }, []);
 
   // Serverless Fetch from Google Sheets with Skeleton Loader logic
   useEffect(() => {
@@ -97,6 +90,11 @@ export default function HomePage() {
 
   return (
     <div className="bg-[#F5F5F4] text-[#1C1917] min-h-screen overflow-x-hidden font-sans">
+      <SEO
+        title="MG Installations | Expert CCTV, DSTV & TV Mounting in uMnambithi"
+        description="Fast, professional installations in uMnambithi, Ladysmith & surrounding areas. Specializing in CCTV, DSTV, Gate Motors, and TV Wall Mounting. Get a free quote today."
+        path="/"
+      />
       <Navbar />
 
       <main>
