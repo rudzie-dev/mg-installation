@@ -17,6 +17,7 @@ export default function Navbar() {
   const { pathname } = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [prevPathname, setPrevPathname] = useState(pathname);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 40);
@@ -24,7 +25,12 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  useEffect(() => { setMobileMenuOpen(false); }, [pathname]);
+  // Close the mobile menu on navigation — adjusted during render rather than in an
+  // effect, so it takes effect in the same commit instead of causing an extra render.
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname);
+    setMobileMenuOpen(false);
+  }
 
   const handleNavClick = (path, anchor) => {
     if (pathname === "/" && anchor) {

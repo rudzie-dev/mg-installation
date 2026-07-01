@@ -78,7 +78,7 @@ export default function HomePage() {
           setReviews(DEFAULT_REVIEWS); // Fallback if sheet is empty
         }
       } catch (error) {
-        console.error("Could not fetch live reviews. Using fallbacks.");
+        console.error("Could not fetch live reviews. Using fallbacks.", error);
         setReviews(DEFAULT_REVIEWS);
       } finally {
         setIsLoadingReviews(false);

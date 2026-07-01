@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import SEO from "../components/SEO";
-import { Phone, Star, Cctv, Satellite, Tv, Wrench, Shield, Smartphone, Cable, Eye, HardDrive, ShieldCheck } from "lucide-react";
+import { Phone, Cctv, Satellite, Tv, Wrench, Shield, Smartphone, Cable, Eye, HardDrive, ShieldCheck } from "lucide-react";
 
 const WA_ICON = () => (
   <svg viewBox="0 0 32 32" fill="currentColor" className="w-5 h-5 flex-shrink-0 select-none" aria-hidden="true">
@@ -13,7 +13,7 @@ const WA_ICON = () => (
 const WA_NUMBER = "27606038238";
 const mkWA = (msg) => `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
 
-export const SERVICES = {
+const SERVICES = {
   cctv: {
     slug: "cctv",
     path: "/services/cctv",

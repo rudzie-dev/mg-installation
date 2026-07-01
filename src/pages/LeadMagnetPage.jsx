@@ -41,7 +41,7 @@ export default function FreeQuotePage() {
       } else {
         setStatus("error");
       }
-    } catch (error) {
+    } catch {
       setStatus("error");
     }
   };
