@@ -9,6 +9,9 @@ import CCTVPage       from "./pages/services/CCTVPage";
 import DSTVPage       from "./pages/services/DSTVPage";
 import TVMountingPage from "./pages/services/TVMountingPage";
 import RepairsPage    from "./pages/services/RepairsPage";
+import AdminLogin     from "./pages/admin/AdminLogin";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import ProtectedRoute from "./components/admin/ProtectedRoute";
 
 export default function App() {
   return (
@@ -23,6 +26,8 @@ export default function App() {
         <Route path="/services/dstv"        element={<DSTVPage />} />
         <Route path="/services/tv-mounting" element={<TVMountingPage />} />
         <Route path="/services/repairs"     element={<RepairsPage />} />
+        <Route path="/admin/login"          element={<AdminLogin />} />
+        <Route path="/admin"                element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
       </Routes>
     </>
   );

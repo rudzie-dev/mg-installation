@@ -5,6 +5,7 @@ import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import MobileStickyBar from "../components/layout/MobileStickyBar";
 import SEO from "../components/SEO";
+import { supabase } from "../lib/supabase";
 import { Cctv, Satellite, Tv, Wrench, Phone, ShieldCheck, BadgeCheck, Zap, Star, ArrowRight } from "lucide-react";
 
 const WA_NUMBER = "27606038238";
@@ -29,7 +30,7 @@ const SERVICES = [
   { icon: Wrench,    title: "Repairs & Callouts", desc: "Rapid Ladysmith callouts to fix broken cameras, faulty signal, and dead tech.",   baseImg: "/images/Raja", path: "/services/repairs" },
 ];
 
-// We keep this purely as an absolute fallback in case the Google Sheet is deleted or the network completely fails
+// We keep this purely as an absolute fallback in case the reviews table is empty or the network completely fails
 const DEFAULT_REVIEWS = [
   { name: "Sibusiso", surname: "Ndlovu",  service: "CCTV Installation", stars: 5, text: "Professional service. They were on time and did a clean installation of my CCTV cameras. Highly recommended for anyone in Ladysmith." },
   { name: "Sarah", surname: "Miller",  service: "DSTV & CCTV", stars: 5, text: "Best DSTV and CCTV installer in Ladysmith. Very knowledgeable and explained everything clearly. Great value for money." },
@@ -53,7 +54,7 @@ export default function HomePage() {
   const [reviews, setReviews] = useState([]);
   const [isLoadingReviews, setIsLoadingReviews] = useState(true);
 
-  // Serverless Fetch from Google Sheets with Skeleton Loader logic
+  // Fetch reviews from Supabase, with a 24h localStorage cache and skeleton loader
   useEffect(() => {
     const fetchLiveReviews = async () => {
       try {
@@ -68,15 +69,19 @@ export default function HomePage() {
           return;
         }
 
-        const res = await fetch("https://script.google.com/macros/s/AKfycbxq_U8w6VA7GFq1_k1ujRDST_WLQXt6IQjBvfdGTMzpjTHn0Vp6VRi0bbRy6ABa4lAjzQ/exec");
-        const data = await res.json();
+        const { data, error: fetchError } = await supabase
+          .from('reviews')
+          .select('*')
+          .order('created_at', { ascending: false })
+          .limit(4);
+        if (fetchError) throw fetchError;
 
         if (data && data.length > 0) {
           setReviews(data);
           localStorage.setItem('mg_reviews_cache', JSON.stringify(data));
           localStorage.setItem('mg_reviews_timestamp', now.toString());
         } else {
-          setReviews(DEFAULT_REVIEWS); // Fallback if sheet is empty
+          setReviews(DEFAULT_REVIEWS); // Fallback if table is empty
         }
       } catch (error) {
         console.error("Could not fetch live reviews. Using fallbacks.", error);

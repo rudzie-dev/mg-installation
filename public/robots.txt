@@ -1,6 +1,7 @@
 # ── Standard Search Engines (Google, Bing, Yahoo) ──
 User-agent: *
 Allow: /
+Disallow: /admin
 
 # ── AI & LLM Crawlers (Explicitly Allowed for AIO) ──
 User-agent: GPTBot

@@ -4,16 +4,8 @@ import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import MobileStickyBar from "../components/layout/MobileStickyBar";
 import SEO from "../components/SEO";
+import { supabase } from "../lib/supabase";
 import { Loader2 } from "lucide-react";
-
-const PORTFOLIO_ITEMS = [
-  { id: 1, title: "Commercial Security Feed",  category: "cctv",     baseImg: "/images/CCTV",     desc: "ColorVu night-vision deployment at Ladysmith depot." },
-  { id: 2, title: "Precision Dish Alignment",  category: "dstv",     baseImg: "/images/DSTV",     desc: "Rooftop multi-switch setup for residential complex." },
-  { id: 3, title: "Clean Media Wall",          category: "mounting", baseImg: "/images/TVMount",  desc: "Cable-free floating TV mount on brick wall." },
-  { id: 4, title: "Hybrid Camera Matrix",      category: "cctv",     baseImg: "/images/CCTV2",    desc: "Vandal-proof dome cameras for retail storefront." },
-  { id: 5, title: "On-Site Installation",      category: "cctv",     baseImg: "/images/Raja",     desc: "Full camera run and termination at commercial site." },
-  { id: 6, title: "Hardware Supply & Setup",   category: "dstv",     baseImg: "/images/Raja2",    desc: "Decoder and LNB sourcing with same-day setup." },
-];
 
 const CATEGORIES = [
   { id: "all",      label: "All Work" },
@@ -31,17 +23,19 @@ const fadeUp = (delay = 0) => ({
 
 export default function PortfolioPage() {
   const [active, setActive] = useState("all");
+  const [allItems, setAllItems] = useState([]);
   // Must match between server and client renders for hydration to succeed; the grid
-  // fills in client-side once images preload, same as before prerendering existed.
+  // fills in client-side once items are fetched and images preload, same as before
+  // prerendering existed.
   const [isLoading, setIsLoading] = useState(true);
 
-  const filtered = active === "all" ? PORTFOLIO_ITEMS : PORTFOLIO_ITEMS.filter(i => i.category === active);
+  const filtered = active === "all" ? allItems : allItems.filter(i => i.category === active);
 
   const preloadImages = (items) => {
     return items.map(item => {
       return new Promise((resolve) => {
         const img = new Image();
-        img.src = `${item.baseImg}-1200px.webp`; // Preload largest size to ensure cache hits
+        img.src = item.image_url;
         img.onload = resolve;
         img.onerror = resolve;
       });
@@ -52,9 +46,24 @@ export default function PortfolioPage() {
     let isMounted = true;
     const loadInitialAssets = async () => {
       const delayPromise = new Promise(resolve => setTimeout(resolve, 600));
-      const imagePromises = preloadImages(PORTFOLIO_ITEMS);
+      let items = [];
+      try {
+        const { data, error } = await supabase
+          .from("portfolio_items")
+          .select("*")
+          .order("sort_order", { ascending: true })
+          .order("created_at", { ascending: false });
+        if (error) throw error;
+        items = data;
+      } catch (err) {
+        console.error("Could not load portfolio items.", err);
+      }
+      const imagePromises = preloadImages(items);
       await Promise.all([delayPromise, ...imagePromises]);
-      if (isMounted) setIsLoading(false);
+      if (isMounted) {
+        setAllItems(items);
+        setIsLoading(false);
+      }
     };
     loadInitialAssets();
     return () => { isMounted = false; };
@@ -63,8 +72,8 @@ export default function PortfolioPage() {
   const handleFilter = async (categoryId) => {
     if (categoryId === active || isLoading) return;
     setIsLoading(true);
-    setActive(categoryId); 
-    const newItems = categoryId === "all" ? PORTFOLIO_ITEMS : PORTFOLIO_ITEMS.filter(i => i.category === categoryId);
+    setActive(categoryId);
+    const newItems = categoryId === "all" ? allItems : allItems.filter(i => i.category === categoryId);
     const delayPromise = new Promise(resolve => setTimeout(resolve, 600));
     const imagePromises = preloadImages(newItems);
     await Promise.all([delayPromise, ...imagePromises]);
@@ -119,8 +128,18 @@ export default function PortfolioPage() {
               >
                 <Loader2 className="w-10 h-10 text-[#2563EB] animate-spin" />
               </motion.div>
+            ) : filtered.length === 0 ? (
+              <motion.p
+                key="empty"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="text-center text-[#78716C] py-24"
+              >
+                No photos here yet — check back soon.
+              </motion.p>
             ) : (
-              <motion.div 
+              <motion.div
                 key="grid"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -135,13 +154,10 @@ export default function PortfolioPage() {
                     transition={{ duration: 0.4, delay: i * 0.05 }}
                     className="group bg-white border border-[#E7E5E4] rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-black/8 transition-all duration-300">
                     <div className="relative h-52 overflow-hidden">
-                      {/* Responsive Image Update */}
-                      <img 
-                        src={`${item.baseImg}-1200px.webp`} 
-                        srcSet={`${item.baseImg}-400px.webp 400w, ${item.baseImg}-800px.webp 800w, ${item.baseImg}-1200px.webp 1200w`}
-                        sizes="(max-width: 600px) 400px, (max-width: 1024px) 800px, 1200px"
-                        alt={item.title} width="800" height="600" loading="lazy" decoding="async"
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 will-change-transform" 
+                      <img
+                        src={item.image_url}
+                        alt={item.title} loading="lazy" decoding="async"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 will-change-transform"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#1C1917]/50 via-transparent to-transparent" />
                       <span className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm text-[#1C1917] text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full border border-white/40">
@@ -150,7 +166,7 @@ export default function PortfolioPage() {
                     </div>
                     <div className="p-5">
                       <h3 className="font-bold text-base text-[#1C1917] mb-1">{item.title}</h3>
-                      <p className="text-sm text-[#57534E] leading-relaxed">{item.desc}</p>
+                      <p className="text-sm text-[#57534E] leading-relaxed">{item.description}</p>
                     </div>
                   </motion.div>
                 ))}
