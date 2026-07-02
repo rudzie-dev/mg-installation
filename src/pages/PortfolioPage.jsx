@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+import MobileStickyBar from "../components/layout/MobileStickyBar";
 import SEO from "../components/SEO";
 import { Loader2 } from "lucide-react";
 
@@ -71,7 +72,7 @@ export default function PortfolioPage() {
   };
 
   return (
-    <div className="bg-[#F5F5F4] text-[#1C1917] min-h-screen font-sans flex flex-col">
+    <div className="bg-[#F5F5F4] text-[#1C1917] min-h-screen font-sans flex flex-col pb-20 md:pb-0">
       <SEO
         title="Our Work | MG Installations Portfolio in Ladysmith"
         description="A selection of clean, technical CCTV, DSTV, and TV mounting installations across residential and commercial sites in Ladysmith, personally installed by Raja."
@@ -160,6 +161,7 @@ export default function PortfolioPage() {
       </main>
 
       <Footer />
+      <MobileStickyBar />
     </div>
   );
 }

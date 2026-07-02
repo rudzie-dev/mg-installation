@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+import MobileStickyBar from "../components/layout/MobileStickyBar";
 import SEO from "../components/SEO";
 import { Phone, MapPin, ArrowRight, CheckCircle } from "lucide-react";
 
@@ -38,7 +39,7 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="bg-[#F5F5F4] text-[#1C1917] min-h-screen font-sans flex flex-col">
+    <div className="bg-[#F5F5F4] text-[#1C1917] min-h-screen font-sans flex flex-col pb-20 md:pb-0">
       <SEO
         title="Contact MG Installations | Ladysmith CCTV & DSTV Installer"
         description="Call, WhatsApp, or send a message to MG Installations in Ladysmith. We respond fast and quote for free on CCTV, DSTV, TV mounting, and repairs."
@@ -143,6 +144,7 @@ export default function ContactPage() {
       </main>
 
       <Footer />
+      <MobileStickyBar />
     </div>
   );
 }

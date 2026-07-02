@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+import MobileStickyBar from "../components/layout/MobileStickyBar";
 import SEO from "../components/SEO";
 import { Phone, Cctv, Satellite, Tv, Wrench, Shield, Smartphone, Cable, Eye, HardDrive, ShieldCheck } from "lucide-react";
 
@@ -112,7 +113,7 @@ export default function ServicePage({ service }) {
   };
 
   return (
-    <div className="bg-[#F5F5F4] text-[#1C1917] min-h-screen font-sans overflow-x-hidden">
+    <div className="bg-[#F5F5F4] text-[#1C1917] min-h-screen font-sans overflow-x-hidden pb-20 md:pb-0">
       <SEO
         title={s.titleTag || `${s.h1} | MG Installations`}
         description={s.sub}
@@ -240,6 +241,7 @@ export default function ServicePage({ service }) {
       </main>
 
       <Footer />
+      <MobileStickyBar />
     </div>
   );
 }

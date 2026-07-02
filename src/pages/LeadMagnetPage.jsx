@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "../components/layout/Navbar";
+import MobileStickyBar from "../components/layout/MobileStickyBar";
 import SEO from "../components/SEO";
 import { CheckCircle2, ArrowRight, ArrowLeft, Send } from "lucide-react";
 
@@ -47,7 +48,7 @@ export default function FreeQuotePage() {
   };
 
   return (
-    <div className="bg-[#F8F9FA] text-[#202124] min-h-screen font-sans flex flex-col">
+    <div className="bg-[#F8F9FA] text-[#202124] min-h-screen font-sans flex flex-col pb-20 md:pb-0">
       <SEO
         title="Get a Free Quote | MG Installations Ladysmith"
         description="Request a free quote for CCTV, DSTV, TV wall mounting, gate motors, or repairs in Ladysmith and surrounding areas. Fast response, no obligation."
@@ -183,6 +184,7 @@ export default function FreeQuotePage() {
           </div>
         )}
       </main>
+      <MobileStickyBar />
     </div>
   );
 }

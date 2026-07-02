@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+import MobileStickyBar from "../components/layout/MobileStickyBar";
 import SEO from "../components/SEO";
 import { Cctv, Satellite, Tv, Wrench, Phone, ShieldCheck, BadgeCheck, Zap, Star, ArrowRight } from "lucide-react";
 
@@ -89,7 +90,7 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="bg-[#F5F5F4] text-[#1C1917] min-h-screen overflow-x-hidden font-sans">
+    <div className="bg-[#F5F5F4] text-[#1C1917] min-h-screen overflow-x-hidden font-sans pb-20 md:pb-0">
       <SEO
         title="MG Installations | Expert CCTV, DSTV & TV Mounting in uMnambithi"
         description="Fast, professional installations in uMnambithi, Ladysmith & surrounding areas. Specializing in CCTV, DSTV, Gate Motors, and TV Wall Mounting. Get a free quote today."
@@ -117,7 +118,7 @@ export default function HomePage() {
                 <p className="text-lg text-[#57534E] leading-relaxed mb-8 md:mb-10 max-w-md">
                   Quality workmanship, transparent pricing, and zero delays. Get your project sorted today with Raja and the team.
                 </p>
-                <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex flex-wrap gap-x-4 gap-y-3">
                   {TRUST_BADGES.map(({ icon: Icon, label }) => (
                     <div key={label} className="flex items-center gap-2">
                       <div className="w-8 h-8 rounded-full bg-white border border-[#E7E5E4] flex items-center justify-center shadow-sm flex-shrink-0">
@@ -127,10 +128,13 @@ export default function HomePage() {
                     </div>
                   ))}
                 </div>
+                <p className="lg:hidden flex items-center gap-1.5 text-xs text-[#78716C] font-medium mt-6">
+                  ⚡ Usually replies in under 5 minutes on WhatsApp
+                </p>
               </motion.div>
 
               <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-                className="flex justify-center lg:justify-end mt-2 lg:mt-0 will-change-transform">
+                className="hidden lg:flex justify-center lg:justify-end mt-2 lg:mt-0 will-change-transform">
                 <div className="w-full max-w-sm bg-white rounded-3xl border border-[#E7E5E4] shadow-xl shadow-black/5 p-6 md:p-8 flex flex-col items-center text-center gap-4 md:gap-6">
                   <div className="w-20 h-20 rounded-2xl flex items-center justify-center text-white"
                     style={{ background: "linear-gradient(135deg,#25D366 0%,#128C7E 100%)" }}>
@@ -316,6 +320,7 @@ export default function HomePage() {
       </main>
 
       <Footer />
+      <MobileStickyBar />
     </div>
   );
 }
