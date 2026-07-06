@@ -47,6 +47,10 @@ export default function Navbar() {
     { label: "Contact",  action: () => navigate("/contact"),             path: "/contact" },
   ];
 
+  // Home's hero is a dark photo, so the transparent (unscrolled) navbar needs a light
+  // variant there — every other page's hero is light, so this only applies on "/".
+  const onDarkHero = pathname === "/" && !isScrolled;
+
   return (
     <>
       <motion.header
@@ -65,16 +69,16 @@ export default function Navbar() {
           <button onClick={() => navigate("/")} 
             aria-label="Go to homepage"
             className="flex items-center gap-3 cursor-pointer select-none group z-50 shrink-0 bg-transparent border-none p-0">
-            <img src="/images/logo-black.png" alt="" aria-hidden="true"
+            <img src={onDarkHero ? "/images/logo-white.png" : "/images/logo-black.png"} alt="" aria-hidden="true"
               className="h-9 md:h-11 w-auto transition-transform duration-300 group-hover:scale-105" />
             <div className="flex flex-col justify-center text-left">
-              <span className="font-black text-xl tracking-tight text-[#1C1917] leading-none">MG</span>
-              <span className="font-bold text-[10px] tracking-widest uppercase text-[#57534E]">Installations</span>
+              <span className={`font-black text-xl tracking-tight leading-none ${onDarkHero ? "text-white" : "text-[#1C1917]"}`}>MG</span>
+              <span className={`font-bold text-[10px] tracking-widest uppercase ${onDarkHero ? "text-white/70" : "text-[#57534E]"}`}>Installations</span>
             </div>
           </button>
 
           {/* Desktop nav links */}
-          <nav className="hidden md:flex items-center gap-7 text-sm font-semibold text-[#57534E]">
+          <nav className={`hidden md:flex items-center gap-7 text-sm font-semibold ${onDarkHero ? "text-white/80" : "text-[#57534E]"}`}>
             {NAV_LINKS.map(({ label, action, path }) => (
               <button key={label} onClick={action}
                 className={`hover:text-[#2563EB] transition-colors ${path && pathname === path ? "text-[#2563EB]" : ""}`}>
@@ -87,7 +91,7 @@ export default function Navbar() {
           <div className="hidden md:flex items-center gap-3">
             <a href="tel:0606038238"
               aria-label="Call MG Installations at 060 603 8238"
-              className="flex items-center gap-1.5 text-sm font-bold text-[#1C1917] hover:text-[#2563EB] transition-colors">
+              className={`flex items-center gap-1.5 text-sm font-bold hover:text-[#2563EB] transition-colors ${onDarkHero ? "text-white" : "text-[#1C1917]"}`}>
               <Phone className="w-4 h-4 text-[#2563EB]" aria-hidden="true" />
               060 603 8238
             </a>
@@ -104,7 +108,7 @@ export default function Navbar() {
           <div className="md:hidden flex items-center gap-2 z-50">
             <a href="tel:0606038238"
               aria-label="Call MG Installations"
-              className="p-2 text-[#1C1917] hover:text-[#2563EB] transition-colors">
+              className={`p-2 hover:text-[#2563EB] transition-colors ${onDarkHero ? "text-white" : "text-[#1C1917]"}`}>
               <Phone className="w-5 h-5" aria-hidden="true" />
             </a>
             <a href={`https://wa.me/${WA_NUMBER}?text=${WA_MESSAGE}`}
@@ -118,7 +122,7 @@ export default function Navbar() {
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)} 
               aria-label={mobileMenuOpen ? "Close mobile menu" : "Open mobile menu"}
               aria-expanded={mobileMenuOpen}
-              className="p-2 text-[#57534E] hover:text-[#1C1917]">
+              className={`p-2 ${onDarkHero ? "text-white/80 hover:text-white" : "text-[#57534E] hover:text-[#1C1917]"}`}>
               <div className="w-5 h-4 flex flex-col justify-between" aria-hidden="true">
                 <span className={`h-px w-full bg-current transition-transform duration-300 ${mobileMenuOpen ? "rotate-45 translate-y-[7px]" : ""}`} />
                 <span className={`h-[1.5px] w-full bg-current transition-opacity duration-200 ${mobileMenuOpen ? "opacity-0" : ""}`} />

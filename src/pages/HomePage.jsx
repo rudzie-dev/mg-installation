@@ -6,7 +6,7 @@ import Footer from "../components/layout/Footer";
 import MobileStickyBar from "../components/layout/MobileStickyBar";
 import SEO from "../components/SEO";
 import { supabase } from "../lib/supabase";
-import { Cctv, Satellite, Tv, Wrench, Phone, ShieldCheck, BadgeCheck, Zap, Star, ArrowRight } from "lucide-react";
+import { Cctv, Satellite, Tv, Wrench, Phone, ShieldCheck, Star, ArrowRight, Check } from "lucide-react";
 
 const WA_NUMBER = "27606038238";
 const WA_MESSAGE = encodeURIComponent("Hi Raja! I'd like to get a free quote.");
@@ -18,9 +18,9 @@ const WA_ICON = ({ className = "w-5 h-5 flex-shrink-0" }) => (
 );
 
 const TRUST_BADGES = [
-  { icon: BadgeCheck, label: "15+ Years Experience" },
-  { icon: ShieldCheck, label: "Fully Insured" },
-  { icon: Zap,        label: "Fast Response" },
+  { label: "15+ Years Experience" },
+  { label: "Trusted Locally" },
+  { label: "Fast Response" },
 ];
 
 const SERVICES = [
@@ -106,41 +106,43 @@ export default function HomePage() {
       <main>
         {/* ── HERO SECTION ── */}
         <section className="relative min-h-dvh w-full flex items-center pt-20 pb-10 md:pb-16 overflow-hidden">
-          <div className="absolute inset-0 hidden md:flex items-center overflow-hidden pointer-events-none select-none z-0" aria-hidden="true">
-            <span className="font-black text-[22vw] leading-none tracking-tighter text-[#ECEAE8] whitespace-nowrap">MG</span>
+          <div className="absolute inset-0 z-0" aria-hidden="true">
+            <img
+              src="/images/CCTV-1200px.webp"
+              srcSet="/images/CCTV-400px.webp 400w, /images/CCTV-800px.webp 800w, /images/CCTV-1200px.webp 1200w"
+              sizes="100vw"
+              alt=""
+              fetchPriority="high"
+              decoding="async"
+              className="w-full h-full object-cover"
+              style={{ objectPosition: "center 40%" }}
+            />
+            <div className="absolute inset-0 bg-[#0a0a0a]/70" />
           </div>
 
           <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-20 items-center">
               <motion.div initial={{ opacity: 0, x: -32 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}>
-                <div className="inline-flex items-center gap-2 mb-6 bg-[#1C1917] text-white px-3 py-1.5 rounded-full w-fit">
-                  <ShieldCheck className="w-3.5 h-3.5 text-[#2563EB]" aria-hidden="true" />
-                  <span className="font-bold text-[10px] uppercase tracking-widest">Led by Master Installer, Raja</span>
-                </div>
-                <h1 className="text-4xl sm:text-5xl xl:text-[3.2rem] font-bold tracking-tight leading-[1.08] mb-6 text-[#1C1917]">
-                  Expert Installations<br />in <span className="text-[#2563EB]">uMnambithi</span> &<br />Surrounding Areas.
+                <h1 className="text-4xl sm:text-5xl xl:text-[3.4rem] font-bold tracking-tight leading-[1.08] mb-5 text-white">
+                  Expert CCTV, DSTV<br />& TV Mounting in <span className="text-[#60A5FA]">Ladysmith</span>.
                 </h1>
-                <p className="text-lg text-[#57534E] leading-relaxed mb-8 md:mb-10 max-w-md">
-                  Quality workmanship, transparent pricing, and zero delays. Get your project sorted today with Raja and the team.
+                <p className="text-lg text-white/70 leading-relaxed mb-8 max-w-md">
+                  Clean work, fair prices, fast callouts across uMnambithi.
                 </p>
-                <div className="flex flex-wrap gap-x-4 gap-y-3">
-                  {TRUST_BADGES.map(({ icon: Icon, label }) => (
-                    <div key={label} className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-full bg-white border border-[#E7E5E4] flex items-center justify-center shadow-sm flex-shrink-0">
-                        <Icon className="w-4 h-4 text-[#2563EB]" aria-hidden="true" />
-                      </div>
-                      <span className="text-sm font-semibold text-[#1C1917]">{label}</span>
-                    </div>
+                <div className="flex flex-wrap items-center gap-2">
+                  {TRUST_BADGES.map(({ label }) => (
+                    <span key={label}
+                      className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs sm:text-sm font-semibold text-white whitespace-nowrap">
+                      <Check className="w-3.5 h-3.5 text-[#60A5FA] flex-shrink-0" aria-hidden="true" />
+                      {label}
+                    </span>
                   ))}
                 </div>
-                <p className="lg:hidden flex items-center gap-1.5 text-xs text-[#78716C] font-medium mt-6">
-                  ⚡ Usually replies in under 5 minutes on WhatsApp
-                </p>
               </motion.div>
 
               <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
                 className="hidden lg:flex justify-center lg:justify-end mt-2 lg:mt-0 will-change-transform">
-                <div className="w-full max-w-sm bg-white rounded-3xl border border-[#E7E5E4] shadow-xl shadow-black/5 p-6 md:p-8 flex flex-col items-center text-center gap-4 md:gap-6">
+                <div className="w-full max-w-sm bg-white/90 backdrop-blur-xl rounded-3xl border border-white/40 shadow-2xl shadow-black/20 p-6 md:p-8 flex flex-col items-center text-center gap-4 md:gap-6">
                   <div className="w-20 h-20 rounded-2xl flex items-center justify-center text-white"
                     style={{ background: "linear-gradient(135deg,#25D366 0%,#128C7E 100%)" }}>
                     <WA_ICON className="w-11 h-11" />
