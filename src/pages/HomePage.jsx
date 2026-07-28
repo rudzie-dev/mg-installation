@@ -6,7 +6,8 @@ import Footer from "../components/layout/Footer";
 import MobileStickyBar from "../components/layout/MobileStickyBar";
 import SEO from "../components/SEO";
 import { supabase } from "../lib/supabase";
-import { Cctv, Satellite, Tv, Wrench, Phone, ShieldCheck, Star, ArrowRight, Check } from "lucide-react";
+import { SERVICE_AREAS } from "../lib/serviceAreas";
+import { Cctv, Satellite, Tv, Wrench, Phone, ShieldCheck, Star, ArrowRight, Check, MapPin } from "lucide-react";
 
 const WA_NUMBER = "27606038238";
 const WA_MESSAGE = encodeURIComponent("Hi Raja! I'd like to get a free quote.");
@@ -25,7 +26,7 @@ const TRUST_BADGES = [
 
 const SERVICES = [
   { icon: Cctv,      title: "CCTV Systems",      desc: "Zero blind spots. Clean wiring, remote phone access, and full HD night vision.",  baseImg: "/images/CCTV", path: "/services/cctv" },
-  { icon: Satellite, title: "DSTV & Signal",      desc: "Precision dish alignment for zero dropout, Smart LNB routing, decoder setup.",    baseImg: "/images/DSTV", path: "/services/dstv" },
+  { icon: Satellite, title: "DStv Installer",      desc: "Precision dish alignment for zero dropout, Smart LNB routing, decoder setup.",    baseImg: "/images/DSTV", path: "/services/dstv" },
   { icon: Tv,        title: "TV Wall Mounting",   desc: "Perfectly level structural mounts with every cable buried out of sight.",          baseImg: "/images/TVMount", path: "/services/tv-mounting" },
   { icon: Wrench,    title: "Repairs & Callouts", desc: "Rapid Ladysmith callouts to fix broken cameras, faulty signal, and dead tech.",   baseImg: "/images/Raja", path: "/services/repairs" },
 ];
@@ -97,8 +98,8 @@ export default function HomePage() {
   return (
     <div className="bg-[#F5F5F4] text-[#1C1917] min-h-screen overflow-x-hidden font-sans pb-20 md:pb-0">
       <SEO
-        title="MG Installations | Expert CCTV, DSTV & TV Mounting in uMnambithi"
-        description="Fast, professional installations in uMnambithi, Ladysmith & surrounding areas. Specializing in CCTV, DSTV, Gate Motors, and TV Wall Mounting. Get a free quote today."
+        title="DStv, CCTV & TV Mounting Installer in Ladysmith | MG Installations"
+        description="Your local DStv, CCTV, and TV mounting installer near you in Ladysmith and across uMnambithi. Fast callouts, fair prices, free quotes. Independent installer — not MultiChoice's call centre."
         path="/"
       />
       <Navbar />
@@ -124,10 +125,10 @@ export default function HomePage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-20 items-center">
               <motion.div initial={{ opacity: 0, x: -32 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}>
                 <h1 className="text-4xl sm:text-5xl xl:text-[3.4rem] font-bold tracking-tight leading-[1.08] mb-5 text-white">
-                  Expert CCTV, DSTV<br />& TV Mounting in <span className="text-[#60A5FA]">Ladysmith</span>.
+                  Your Local CCTV, DStv<br />&amp; TV Installer in <span className="text-[#60A5FA]">Ladysmith</span>.
                 </h1>
                 <p className="text-lg text-white/70 leading-relaxed mb-8 max-w-md">
-                  Clean work, fair prices, fast callouts across uMnambithi.
+                  Clean work, fair prices, fast callouts near you across uMnambithi.
                 </p>
                 <div className="flex flex-wrap items-center gap-2">
                   {TRUST_BADGES.map(({ label }) => (
@@ -291,6 +292,37 @@ export default function HomePage() {
                 })
               )}
             </div>
+          </div>
+        </section>
+
+        {/* ── AREAS WE SERVE ── */}
+        <section className="py-24 px-6 bg-white">
+          <div className="max-w-7xl mx-auto">
+            <motion.div {...fadeUp()} className="mb-10 max-w-2xl">
+              <p className="text-xs text-[#2563EB] font-bold uppercase tracking-widest mb-3 flex items-center gap-2">
+                <MapPin className="w-3.5 h-3.5" /> Where We Work
+              </p>
+              <h2 className="font-black text-4xl md:text-5xl tracking-tight text-[#1C1917] mb-4">
+                Your installer, near you.
+              </h2>
+              <p className="text-[#57534E] text-lg leading-relaxed">
+                Based in Ladysmith, MG Installations regularly works across {SERVICE_AREAS.slice(1).join(", ")} and
+                the rest of uMnambithi. Searching for a DStv, CCTV, or TV mounting installer near me? Find your
+                area and get a free quote.
+              </p>
+            </motion.div>
+            <motion.div {...fadeUp(0.1)} className="flex flex-wrap gap-2 mb-8">
+              {SERVICE_AREAS.map((area) => (
+                <span key={area}
+                  className="text-xs font-medium text-[#57534E] bg-[#F5F5F4] border border-[#E7E5E4] px-3 py-1.5 rounded-full">
+                  {area}
+                </span>
+              ))}
+            </motion.div>
+            <motion.button {...fadeUp(0.15)} onClick={() => navigate("/service-areas")}
+              className="text-[#2563EB] font-bold text-sm flex items-center gap-1.5 hover:gap-2.5 transition-all">
+              See all service areas <ArrowRight className="w-4 h-4" />
+            </motion.button>
           </div>
         </section>
 

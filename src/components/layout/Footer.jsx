@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Phone, Mail, MapPin } from "lucide-react";
+import { SERVICE_AREAS } from "../../lib/serviceAreas";
 
 const WA_NUMBER = "27606038238";
 const WA_MESSAGE = encodeURIComponent("Hi MG Installations! I'd like to get a free quote.");
@@ -10,18 +11,12 @@ const WA_ICON = () => (
   </svg>
 );
 
-const AREAS = [
-  "Ladysmith", "Steadville", "Ezakheni A–E", "Watersmeet",
-  "Besters", "Colenso", "Roosboom", "Waaihoek",
-  "Umbulwana", "Matiwane", "Winterton", "Bergville",
-  "Ekuvukeni", "Limehill", "Vaalkop", "Uitval",
-];
-
 const NAV = [
-  { label: "Home",      path: "/" },
-  { label: "Our Work",  path: "/portfolio" },
-  { label: "Contact",   path: "/contact" },
-  { label: "Free Quote",path: "/free-quote" },
+  { label: "Home",          path: "/" },
+  { label: "Our Work",      path: "/portfolio" },
+  { label: "Service Areas", path: "/service-areas" },
+  { label: "Contact",       path: "/contact" },
+  { label: "Free Quote",    path: "/free-quote" },
 ];
 
 export default function Footer() {
@@ -84,9 +79,12 @@ export default function Footer() {
 
           {/* Service areas col */}
           <div className="md:col-span-4 md:col-start-9 flex flex-col gap-3">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-[#57534E] mb-1">Service Areas</span>
+            <button onClick={() => navigate("/service-areas")}
+              className="text-[10px] font-bold uppercase tracking-widest text-[#57534E] mb-1 hover:text-[#2563EB] transition-colors w-fit text-left">
+              Areas We Serve — DStv, CCTV &amp; TV Installer Near You
+            </button>
             <div className="flex flex-wrap gap-2">
-              {AREAS.map((area) => (
+              {SERVICE_AREAS.map((area) => (
                 <span key={area}
                   className="text-xs font-medium text-[#57534E] bg-white border border-[#E7E5E4] px-2.5 py-1 rounded-full">
                   {area}

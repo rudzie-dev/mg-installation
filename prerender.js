@@ -9,6 +9,7 @@ const ROUTES = [
   "/contact",
   "/portfolio",
   "/free-quote",
+  "/service-areas",
   "/services/cctv",
   "/services/dstv",
   "/services/tv-mounting",

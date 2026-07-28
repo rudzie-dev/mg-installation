@@ -41,8 +41,8 @@ export default function ContactPage() {
   return (
     <div className="bg-[#F5F5F4] text-[#1C1917] min-h-screen font-sans flex flex-col pb-20 md:pb-0">
       <SEO
-        title="Contact MG Installations | Ladysmith CCTV & DSTV Installer"
-        description="Call, WhatsApp, or send a message to MG Installations in Ladysmith. We respond fast and quote for free on CCTV, DSTV, TV mounting, and repairs."
+        title="Contact MG Installations | Ladysmith CCTV & DStv Installer"
+        description="Call, WhatsApp, or send a message to your local DStv, CCTV, and TV mounting installer near you in Ladysmith and surrounding uMnambithi areas. We respond fast and quote for free."
         path="/contact"
       />
       <Navbar />
