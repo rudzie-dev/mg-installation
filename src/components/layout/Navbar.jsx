@@ -43,6 +43,7 @@ export default function Navbar() {
   const NAV_LINKS = [
     { label: "Home",     action: () => navigate("/"),                   path: "/" },
     { label: "Services", action: () => handleNavClick("/", "services"),  path: null },
+    { label: "Areas",    action: () => navigate("/service-areas"),       path: "/service-areas" },
     { label: "Our Work", action: () => navigate("/portfolio"),            path: "/portfolio" },
     { label: "Contact",  action: () => navigate("/contact"),             path: "/contact" },
   ];

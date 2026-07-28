@@ -1,13 +1,8 @@
+import { SERVICE_AREAS } from "../lib/serviceAreas";
+
 const SITE_URL = "https://www.mginstallations.co.za";
 const DEFAULT_IMAGE = `${SITE_URL}/images/Raja-1200px.webp`;
 const PHONE = "+27606038238";
-
-const SERVICE_AREAS = [
-  "Ladysmith", "Steadville", "Ezakheni A–E", "Watersmeet",
-  "Besters", "Colenso", "Roosboom", "Waaihoek",
-  "Umbulwana", "Matiwane", "Winterton", "Bergville",
-  "Ekuvukeni", "Limehill", "Vaalkop", "Uitval",
-];
 
 const LOCAL_BUSINESS_SCHEMA = {
   "@context": "https://schema.org",

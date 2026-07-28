@@ -34,6 +34,14 @@
     <priority>0.9</priority>
   </url>
 
+  <!-- ── LOCAL SEO ── -->
+  <url>
+    <loc>https://www.mginstallations.co.za/service-areas</loc>
+    <lastmod>2026-07-28T12:00:00+02:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
   <!-- ── TRUST & CONVERSION ── -->
   <url>
     <loc>https://www.mginstallations.co.za/portfolio</loc>

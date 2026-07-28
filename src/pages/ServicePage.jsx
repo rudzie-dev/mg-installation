@@ -18,9 +18,10 @@ const SERVICES = {
   cctv: {
     slug: "cctv",
     path: "/services/cctv",
-    h1: "Professional CCTV Installation in uMnambithi & Surrounds",
-    titleTag: "CCTV Installation in uMnambithi | MG Installations",
-    sub: "Crystal-clear HD vision, zero blind spots, and full remote mobile viewing — installed and configured the same day by Raja.",
+    h1: "CCTV Installer in Ladysmith & uMnambithi",
+    titleTag: "CCTV Installer Near You in Ladysmith | MG Installations",
+    sub: "Crystal-clear HD vision, zero blind spots, and full remote mobile viewing — installed and configured near you the same day by Raja.",
+    intro: "MG Installations is a local CCTV installer based in Ladysmith, covering Steadville, Ezakheni, Watersmeet, Colenso, Winterton, Bergville and the rest of uMnambithi. Whether you need a full new system or extra cameras added to an existing one, Raja handles the wiring, mobile app setup, and full commissioning personally.",
     waMsg: "Hi Raja! I'd like a quote for CCTV installation.",
     features: [
       { icon: Cctv, title: "HD Night Vision",       desc: "ColorVu cameras deliver full-colour footage even in total darkness." },
@@ -32,31 +33,45 @@ const SERVICES = {
     ],
     gallery: ["/images/CCTV", "/images/CCTV2", "/images/CCTV3"],
     cta: "Ready to secure your property?",
+    faqs: [
+      { q: "Do you install CCTV cameras near me?", a: "Yes — we cover Ladysmith, Ezakheni, Steadville, Colenso, Winterton, Bergville and the rest of uMnambithi. Message us with your area and we'll confirm a same-day or next-day slot." },
+      { q: "Can I view my cameras remotely on my phone?", a: "Yes, every installation includes setting up the mobile app on your phone before we leave, so you can check in from anywhere." },
+      { q: "How many cameras do I need?", a: "It depends on your property size and layout. We'll walk the site with you, identify blind spots, and recommend the minimum setup that actually covers every entry point." },
+      { q: "Do you supply the recorder (NVR/DVR) too?", a: "Yes, we include a recorder sized correctly for your camera count and storage needs as part of the installation." },
+    ],
   },
   dstv: {
     slug: "dstv",
     path: "/services/dstv",
-    h1: "Professional DSTV Installation in uMnambithi & Surrounds",
-    titleTag: "DSTV Installer in uMnambithi | MG Installations",
-    sub: "Precision dish alignment, Smart LNB routing, and full decoder setup — zero signal dropout guaranteed.",
-    waMsg: "Hi Raja! I'd like a quote for DSTV installation.",
+    h1: "DStv Installer in Ladysmith & uMnambithi",
+    titleTag: "DStv Installer Near You in Ladysmith | MG Installations",
+    sub: "Precision dish alignment, Smart LNB routing, and full decoder setup — installed near you across Ladysmith and the rest of uMnambithi.",
+    intro: "MG Installations is an independent, experienced DStv installer based in Ladysmith — we're not MultiChoice's call centre or account support line, so billing or subscription queries need to go directly to DStv. What we do handle: new dish installations, signal troubleshooting, decoder setup, and multi-room wiring across Ladysmith, Ezakheni, Steadville, Colenso, Winterton, Bergville and the rest of uMnambithi.",
+    waMsg: "Hi Raja! I'd like a quote for DStv installation.",
     features: [
       { icon: Satellite, title: "Precision Alignment",   desc: "Dish aligned to the exact degree for maximum signal strength." },
       { icon: Cable, title: "Smart LNB Routing",     desc: "Multi-room setups wired correctly with the right LNB configuration." },
       { icon: Tv, title: "Decoder Setup",         desc: "Full Explora/decoder installation, activation, and channel scan." },
       { icon: Shield, title: "Weatherproofed",        desc: "All outdoor connections sealed to prevent moisture signal loss." },
       { icon: Tv, title: "Multi-Room Ready",      desc: "Extra points added neatly for bedroom or second-screen viewing." },
-      { icon: ShieldCheck, title: "Same-Day Service",       desc: "Most DSTV jobs are completed within a few hours of your call." },
+      { icon: ShieldCheck, title: "Same-Day Service",       desc: "Most DStv jobs are completed within a few hours of your call." },
     ],
     gallery: ["/images/DSTV", "/images/Raja3"],
     cta: "Ready for crystal-clear signal?",
+    faqs: [
+      { q: "Are you DStv's call centre or support line?", a: "No — MG Installations is an independent DStv installer, not affiliated with MultiChoice. For account, billing, or subscription help, contact DStv directly. For a new dish, decoder setup, or signal fix, that's exactly what we do." },
+      { q: "Do you install DStv near me in Ezakheni, Colenso, or Winterton?", a: "Yes — we cover Ladysmith, Ezakheni, Steadville, Colenso, Winterton, Bergville and the rest of uMnambithi. WhatsApp us your area and we'll confirm a slot." },
+      { q: "How much does a DStv installation cost?", a: "Pricing depends on dish placement, number of rooms, and whether it's a new install or a signal fix. We quote for free before starting any work." },
+      { q: "How fast can you get to me?", a: "Most DStv jobs in Ladysmith and the surrounding towns are completed the same day you call." },
+    ],
   },
   tvmounting: {
     slug: "tvmounting",
     path: "/services/tv-mounting",
-    h1: "Professional TV Wall Mounting in uMnambithi & Surrounds",
-    titleTag: "TV Wall Mounting in uMnambithi | MG Installations",
-    sub: "Perfectly level structural mounts with every cable buried completely out of sight.",
+    h1: "TV Wall Mounting Installer in Ladysmith & uMnambithi",
+    titleTag: "TV Mounting Installer Near You in Ladysmith | MG Installations",
+    sub: "Perfectly level structural mounts with every cable buried completely out of sight — installed near you across Ladysmith and the rest of uMnambithi.",
+    intro: "MG Installations mounts TVs across Ladysmith, Ezakheni, Colenso, Winterton and the rest of uMnambithi — every job gets a laser-level check, the correct bracket for your wall type, and cables hidden completely out of sight.",
     waMsg: "Hi Raja! I'd like a quote for TV wall mounting.",
     features: [
       { icon: Tv, title: "Perfectly Level",       desc: "Laser-checked alignment every time. No eyeballing, no tilting." },
@@ -68,24 +83,37 @@ const SERVICES = {
     ],
     gallery: ["/images/TVMount", "/images/Raja4"],
     cta: "Ready for a clean, cable-free setup?",
+    faqs: [
+      { q: "Do you supply the wall bracket?", a: "Yes — we bring the correct bracket for your exact TV size and wall type as part of the job." },
+      { q: "Can you mount a TV on brick, drywall, or concrete?", a: "Yes, we carry the right fixings for each wall type and always mount into studs or anchor correctly so it won't sag or fall." },
+      { q: "Do you hide the cables in the wall?", a: "Yes — cables are buried in the wall or run through neat conduit so nothing is left exposed." },
+      { q: "Do you mount TVs near me outside Ladysmith?", a: "Yes, we cover Ezakheni, Colenso, Winterton, Bergville and the rest of uMnambithi." },
+    ],
   },
   repairs: {
     slug: "repairs",
     path: "/services/repairs",
-    h1: "CCTV & DSTV Repairs and Callouts in uMnambithi & Surrounds",
-    titleTag: "CCTV & DSTV Repairs in uMnambithi | MG Installations",
-    sub: "Fast Ladysmith callouts to diagnose and fix broken cameras, lost signal, faulty gates, and dead tech — same day.",
+    h1: "CCTV & DStv Repair Callouts in Ladysmith & uMnambithi",
+    titleTag: "CCTV & DStv Repairs Near You in Ladysmith | MG Installations",
+    sub: "Fast callouts to fix broken cameras, lost DStv signal, faulty gates, and dead tech — same day, near you across Ladysmith and the rest of uMnambithi.",
+    intro: "Lost your DStv signal or got a faulty camera? MG Installations runs same-day repair callouts across Ladysmith, Ezakheni, Steadville, Colenso, Winterton, Bergville and the rest of uMnambithi — whether we installed the original system or not. Note: DStv account, billing, or subscription issues are handled directly by MultiChoice, not us.",
     waMsg: "Hi Raja! I need a repair callout.",
     features: [
       { icon: Wrench, title: "Same-Day Callout",      desc: "Most repair jobs in Ladysmith and surrounds attended the same day." },
       { icon: Eye, title: "Full Diagnosis",        desc: "We find the root cause — not just the symptom — before we fix." },
       { icon: Cctv, title: "Camera Repairs",        desc: "Faulty camera, bad cable run, or corrupt recorder — all sorted." },
-      { icon: Satellite, title: "Signal Recovery",       desc: "Lost DSTV signal from wind, lightning, or a knocked dish — fixed." },
+      { icon: Satellite, title: "Signal Recovery",       desc: "Lost DStv signal from wind, lightning, or a knocked dish — fixed." },
       { icon: ShieldCheck, title: "Transparent Pricing",   desc: "Callout fee quoted upfront. No surprises on the invoice." },
       { icon: Wrench, title: "Parts On Hand",         desc: "We carry common replacement parts so most jobs finish in one visit." },
     ],
     gallery: ["/images/Raja", "/images/Raja5"],
     cta: "Need something fixed today?",
+    faqs: [
+      { q: "My DStv signal is out — is that you or MultiChoice?", a: "If it's a technical issue — knocked dish, wind or lightning damage, faulty cabling — that's us. Account, billing, or subscription issues go through MultiChoice directly." },
+      { q: "Do you fix CCTV or DStv systems installed by someone else?", a: "Yes — we repair existing systems regardless of who installed them originally." },
+      { q: "Do you do repair callouts near me outside Ladysmith?", a: "Yes, we cover Ezakheni, Steadville, Colenso, Winterton, Bergville and the rest of uMnambithi, usually the same day." },
+      { q: "How much is a callout fee?", a: "We quote the callout fee upfront before we start, so there are no surprises on the invoice." },
+    ],
   },
 };
 
@@ -112,13 +140,23 @@ export default function ServicePage({ service }) {
     "description": s.sub,
   };
 
+  const faqSchema = s.faqs?.length ? {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": s.faqs.map((f) => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a },
+    })),
+  } : null;
+
   return (
     <div className="bg-[#F5F5F4] text-[#1C1917] min-h-screen font-sans overflow-x-hidden pb-20 md:pb-0">
       <SEO
         title={s.titleTag || `${s.h1} | MG Installations`}
         description={s.sub}
         path={s.path}
-        schema={serviceSchema}
+        schema={faqSchema ? [serviceSchema, faqSchema] : serviceSchema}
       />
       <Navbar />
 
@@ -158,6 +196,15 @@ export default function ServicePage({ service }) {
             </motion.div>
           </div>
         </section>
+
+        {/* ── INTRO / LOCAL CONTEXT ── */}
+        {s.intro && (
+          <section className="px-6 md:px-12 pb-16 -mt-4">
+            <div className="max-w-3xl mx-auto">
+              <p className="text-[#57534E] text-base leading-relaxed">{s.intro}</p>
+            </div>
+          </section>
+        )}
 
         {/* ── 2. WHAT'S INCLUDED ── */}
         <section className="py-24 px-6 md:px-12 bg-white">
@@ -212,7 +259,32 @@ export default function ServicePage({ service }) {
           </section>
         )}
 
-        {/* ── 4. FINAL CTA ── */}
+        {/* ── 4. FAQ ── */}
+        {s.faqs?.length > 0 && (
+          <section className="py-24 px-6 md:px-12 bg-white">
+            <div className="max-w-3xl mx-auto">
+              <motion.div {...fadeUp()} className="mb-12">
+                <p className="text-xs text-[#2563EB] font-bold uppercase tracking-widest mb-3">Questions</p>
+                <h2 className="font-black text-3xl md:text-4xl tracking-tight text-[#1C1917]">Frequently asked.</h2>
+              </motion.div>
+              <div className="flex flex-col gap-3">
+                {s.faqs.map((faq, i) => (
+                  <motion.div key={faq.q} {...fadeUp(i * 0.04)}>
+                    <details className="group bg-[#F5F5F4] border border-[#E7E5E4] rounded-2xl p-6 open:bg-white open:shadow-sm">
+                      <summary className="font-bold text-base text-[#1C1917] cursor-pointer list-none flex items-center justify-between gap-4">
+                        {faq.q}
+                        <span className="text-[#2563EB] text-xl leading-none shrink-0">+</span>
+                      </summary>
+                      <p className="text-sm text-[#57534E] leading-relaxed mt-3">{faq.a}</p>
+                    </details>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* ── 5. FINAL CTA ── */}
         <section className="py-24 px-6 md:px-12 bg-[#F5F5F4]">
           <motion.div {...fadeUp()}
             className="max-w-4xl mx-auto rounded-3xl relative overflow-hidden text-white"

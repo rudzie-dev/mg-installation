@@ -2,10 +2,11 @@ import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/utils/ScrollToTop";
 
-import HomePage       from "./pages/HomePage";
-import ContactPage    from "./pages/ContactPage";
-import PortfolioPage  from "./pages/PortfolioPage";
-import LeadMagnetPage from "./pages/LeadMagnetPage";
+import HomePage         from "./pages/HomePage";
+import ContactPage      from "./pages/ContactPage";
+import PortfolioPage    from "./pages/PortfolioPage";
+import LeadMagnetPage   from "./pages/LeadMagnetPage";
+import ServiceAreasPage from "./pages/ServiceAreasPage";
 import CCTVPage       from "./pages/services/CCTVPage";
 import DSTVPage       from "./pages/services/DSTVPage";
 import TVMountingPage from "./pages/services/TVMountingPage";
@@ -27,6 +28,7 @@ export default function App() {
         <Route path="/contact"              element={<ContactPage />} />
         <Route path="/portfolio"            element={<PortfolioPage />} />
         <Route path="/free-quote"           element={<LeadMagnetPage />} />
+        <Route path="/service-areas"        element={<ServiceAreasPage />} />
         <Route path="/services/cctv"        element={<CCTVPage />} />
         <Route path="/services/dstv"        element={<DSTVPage />} />
         <Route path="/services/tv-mounting" element={<TVMountingPage />} />
