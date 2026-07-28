@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Phone, Mail, MapPin } from "lucide-react";
 import { SERVICE_AREAS } from "../../lib/serviceAreas";
 
@@ -20,7 +20,6 @@ const NAV = [
 ];
 
 export default function Footer() {
-  const navigate = useNavigate();
   const year = new Date().getFullYear();
 
   return (
@@ -70,19 +69,19 @@ export default function Footer() {
           <div className="md:col-span-2 md:col-start-6 flex flex-col gap-3">
             <span className="text-[10px] font-bold uppercase tracking-widest text-[#57534E] mb-1">Navigation</span>
             {NAV.map(({ label, path }) => (
-              <button key={label} onClick={() => navigate(path)}
+              <Link key={label} to={path}
                 className="text-sm text-[#57534E] hover:text-[#1C1917] font-medium text-left transition-colors w-fit">
                 {label}
-              </button>
+              </Link>
             ))}
           </div>
 
           {/* Service areas col */}
           <div className="md:col-span-4 md:col-start-9 flex flex-col gap-3">
-            <button onClick={() => navigate("/service-areas")}
+            <Link to="/service-areas"
               className="text-[10px] font-bold uppercase tracking-widest text-[#57534E] mb-1 hover:text-[#2563EB] transition-colors w-fit text-left">
               Areas We Serve — DStv, CCTV &amp; TV Installer Near You
-            </button>
+            </Link>
             <div className="flex flex-wrap gap-2">
               {SERVICE_AREAS.map((area) => (
                 <span key={area}

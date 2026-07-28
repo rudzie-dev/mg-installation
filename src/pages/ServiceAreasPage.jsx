@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import MobileStickyBar from "../components/layout/MobileStickyBar";
@@ -63,8 +63,6 @@ const fadeUp = (delay = 0) => ({
 });
 
 export default function ServiceAreasPage() {
-  const navigate = useNavigate();
-
   return (
     <div className="bg-[#F5F5F4] text-[#1C1917] min-h-screen font-sans flex flex-col pb-20 md:pb-0">
       <SEO
@@ -145,10 +143,10 @@ export default function ServiceAreasPage() {
                 <Phone className="w-4 h-4" aria-hidden="true" /> Call Now
               </a>
             </div>
-            <button onClick={() => navigate("/free-quote")}
+            <Link to="/free-quote"
               className="text-white/60 hover:text-white text-sm font-semibold flex items-center gap-1.5 transition-colors">
               Or request a free quote online <ArrowRight className="w-3.5 h-3.5" />
-            </button>
+            </Link>
           </div>
         </motion.div>
       </main>

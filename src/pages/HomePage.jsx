@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import MobileStickyBar from "../components/layout/MobileStickyBar";
@@ -47,8 +47,9 @@ const fadeUp = (delay = 0) => ({
   transition: { duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] },
 });
 
+const MotionLink = motion.create(Link);
+
 export default function HomePage() {
-  const navigate = useNavigate();
   // Initial state must be identical on server and client — React hydration requires
   // the client's first render to match the prerendered HTML exactly, so this can't be
   // seeded differently per-environment. The reviews fill in client-side after mount.
@@ -188,8 +189,8 @@ export default function HomePage() {
                 const Icon = s.icon;
                 return (
                   <motion.div key={i} {...fadeUp(i * 0.07)}
-                    onClick={() => navigate(s.path)}
-                    className="group relative rounded-2xl overflow-hidden bg-[#F5F5F4] border border-[#E7E5E4] hover:shadow-xl hover:shadow-black/8 transition-all duration-300 cursor-pointer will-change-transform">
+                    className="group relative rounded-2xl overflow-hidden bg-[#F5F5F4] border border-[#E7E5E4] hover:shadow-xl hover:shadow-black/8 transition-all duration-300 will-change-transform">
+                    <Link to={s.path} aria-label={`View ${s.title} service page`} className="absolute inset-0 z-10" />
                     <div className="relative h-48 overflow-hidden">
                       <img 
                         src={`${s.baseImg}-1200px.webp`} 
@@ -319,10 +320,10 @@ export default function HomePage() {
                 </span>
               ))}
             </motion.div>
-            <motion.button {...fadeUp(0.15)} onClick={() => navigate("/service-areas")}
+            <MotionLink to="/service-areas" {...fadeUp(0.15)}
               className="text-[#2563EB] font-bold text-sm flex items-center gap-1.5 hover:gap-2.5 transition-all">
               See all service areas <ArrowRight className="w-4 h-4" />
-            </motion.button>
+            </MotionLink>
           </div>
         </section>
 

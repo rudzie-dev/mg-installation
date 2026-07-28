@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import { Phone } from "lucide-react";
 
 const WA_NUMBER = "27606038238";
@@ -12,8 +12,17 @@ const WA_ICON = () => (
   </svg>
 );
 
+// Real <Link>s (rendered as <a href>) rather than onClick-driven navigation, so Googlebot
+// can discover and follow every internal page instead of relying on the sitemap alone.
+const NAV_LINKS = [
+  { label: "Home",     to: "/",             activePath: "/" },
+  { label: "Services",  to: "/#services",    activePath: null },
+  { label: "Areas",    to: "/service-areas", activePath: "/service-areas" },
+  { label: "Our Work", to: "/portfolio",     activePath: "/portfolio" },
+  { label: "Contact",  to: "/contact",       activePath: "/contact" },
+];
+
 export default function Navbar() {
-  const navigate = useNavigate();
   const { pathname } = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -31,22 +40,6 @@ export default function Navbar() {
     setPrevPathname(pathname);
     setMobileMenuOpen(false);
   }
-
-  const handleNavClick = (path, anchor) => {
-    if (pathname === "/" && anchor) {
-      const el = document.getElementById(anchor);
-      if (el) { el.scrollIntoView({ behavior: "smooth" }); return; }
-    }
-    navigate(path);
-  };
-
-  const NAV_LINKS = [
-    { label: "Home",     action: () => navigate("/"),                   path: "/" },
-    { label: "Services", action: () => handleNavClick("/", "services"),  path: null },
-    { label: "Areas",    action: () => navigate("/service-areas"),       path: "/service-areas" },
-    { label: "Our Work", action: () => navigate("/portfolio"),            path: "/portfolio" },
-    { label: "Contact",  action: () => navigate("/contact"),             path: "/contact" },
-  ];
 
   // Home's hero is a dark photo, so the transparent (unscrolled) navbar needs a light
   // variant there — every other page's hero is light, so this only applies on "/".
@@ -67,24 +60,24 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between gap-4">
 
           {/* Logo */}
-          <button onClick={() => navigate("/")} 
+          <Link to="/"
             aria-label="Go to homepage"
-            className="flex items-center gap-3 cursor-pointer select-none group z-50 shrink-0 bg-transparent border-none p-0">
+            className="flex items-center gap-3 select-none group z-50 shrink-0">
             <img src={onDarkHero ? "/images/logo-white.png" : "/images/logo-black.png"} alt="" aria-hidden="true"
               className="h-9 md:h-11 w-auto transition-transform duration-300 group-hover:scale-105" />
             <div className="flex flex-col justify-center text-left">
               <span className={`font-black text-xl tracking-tight leading-none ${onDarkHero ? "text-white" : "text-[#1C1917]"}`}>MG</span>
               <span className={`font-bold text-[10px] tracking-widest uppercase ${onDarkHero ? "text-white/70" : "text-[#57534E]"}`}>Installations</span>
             </div>
-          </button>
+          </Link>
 
           {/* Desktop nav links */}
           <nav className={`hidden md:flex items-center gap-7 text-sm font-semibold ${onDarkHero ? "text-white/80" : "text-[#57534E]"}`}>
-            {NAV_LINKS.map(({ label, action, path }) => (
-              <button key={label} onClick={action}
-                className={`hover:text-[#2563EB] transition-colors ${path && pathname === path ? "text-[#2563EB]" : ""}`}>
+            {NAV_LINKS.map(({ label, to, activePath }) => (
+              <Link key={label} to={to}
+                className={`hover:text-[#2563EB] transition-colors ${activePath && pathname === activePath ? "text-[#2563EB]" : ""}`}>
                 {label}
-              </button>
+              </Link>
             ))}
           </nav>
 
@@ -145,11 +138,11 @@ export default function Navbar() {
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="fixed inset-0 bg-white z-40 flex flex-col px-8 pt-28 gap-6"
           >
-            {NAV_LINKS.map(({ label, action }) => (
-              <button key={label} onClick={action}
+            {NAV_LINKS.map(({ label, to }) => (
+              <Link key={label} to={to}
                 className="text-2xl font-black text-left text-[#57534E] hover:text-[#1C1917] transition-colors">
                 {label}
-              </button>
+              </Link>
             ))}
             <div className="mt-4 flex flex-col gap-3">
               <a href={`https://wa.me/${WA_NUMBER}?text=${WA_MESSAGE}`} target="_blank" rel="noopener noreferrer"
