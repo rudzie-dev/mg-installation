@@ -96,7 +96,7 @@ export default function ContactPage() {
               </div>
               <div>
                 <p className="text-[10px] font-bold uppercase tracking-widest text-[#A8A29E] mb-0.5">Location</p>
-                <p className="font-bold text-sm text-[#1C1917] leading-snug">Shop 19, Game Centre<br />Ladysmith, KZN</p>
+                <p className="font-bold text-sm text-[#1C1917] leading-snug">Shop 19, Kingsgate Centre<br />21 King St, uMnambithi, 3370</p>
               </div>
             </motion.div>
           </div>

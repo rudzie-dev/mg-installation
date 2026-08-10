@@ -53,7 +53,7 @@ export default function Footer() {
                 <Mail className="w-4 h-4 text-[#2563EB]" aria-hidden="true" /> info@mginstallations.co.za
               </a>
               <span className="flex items-center gap-2 text-[#57534E] font-normal">
-                <MapPin className="w-4 h-4 text-[#2563EB] shrink-0" aria-hidden="true" /> Shop 19, Ladysmith Game Centre, KZN
+                <MapPin className="w-4 h-4 text-[#2563EB] shrink-0" aria-hidden="true" /> Shop 19, Kingsgate Centre, 21 King St, uMnambithi, 3370
               </span>
             </div>
             <a href={`https://wa.me/${WA_NUMBER}?text=${WA_MESSAGE}`}
