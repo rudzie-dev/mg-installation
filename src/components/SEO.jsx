@@ -14,9 +14,10 @@ const LOCAL_BUSINESS_SCHEMA = {
   "email": "info@mginstallations.co.za",
   "address": {
     "@type": "PostalAddress",
-    "streetAddress": "Shop 19, Ladysmith Game Centre",
-    "addressLocality": "Ladysmith",
+    "streetAddress": "Shop 19, Kingsgate Centre, 21 King St",
+    "addressLocality": "uMnambithi",
     "addressRegion": "KwaZulu-Natal",
+    "postalCode": "3370",
     "addressCountry": "ZA",
   },
   "areaServed": SERVICE_AREAS.map((name) => ({ "@type": "City", name })),
