@@ -7,6 +7,7 @@ import ContactPage      from "./pages/ContactPage";
 import PortfolioPage    from "./pages/PortfolioPage";
 import LeadMagnetPage   from "./pages/LeadMagnetPage";
 import ServiceAreasPage from "./pages/ServiceAreasPage";
+import NotFoundPage     from "./pages/NotFoundPage";
 import CCTVPage       from "./pages/services/CCTVPage";
 import DSTVPage       from "./pages/services/DSTVPage";
 import TVMountingPage from "./pages/services/TVMountingPage";
@@ -35,6 +36,7 @@ export default function App() {
         <Route path="/services/repairs"     element={<RepairsPage />} />
         <Route path="/admin/login"          element={<Suspense fallback={null}><AdminLogin /></Suspense>} />
         <Route path="/admin"                element={<ProtectedRoute><Suspense fallback={null}><AdminDashboard /></Suspense></ProtectedRoute>} />
+        <Route path="*"                     element={<NotFoundPage />} />
       </Routes>
     </>
   );

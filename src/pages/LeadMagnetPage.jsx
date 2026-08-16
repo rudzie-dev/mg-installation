@@ -162,6 +162,12 @@ export default function FreeQuotePage() {
                 )}
               </AnimatePresence>
 
+              {status === "error" && (
+                <p className="text-red-600 text-sm text-center font-medium mt-6">
+                  Something went wrong sending your request. Please try again, or reach us directly on WhatsApp/call.
+                </p>
+              )}
+
               {/* Controls */}
               <div className="flex items-center justify-between mt-12 pt-6 border-t border-gray-100">
                 {step > 1 ? (
