@@ -14,6 +14,7 @@ const ROUTES = [
   "/services/dstv",
   "/services/tv-mounting",
   "/services/repairs",
+  "/404",
 ];
 
 const distDir = path.join(__dirname, "dist");
@@ -31,8 +32,13 @@ for (const url of ROUTES) {
     .replace("<!--app-head-->", () => head)
     .replace("<!--app-html-->", () => html);
 
+  // "/404" is special-cased to dist/404.html (not dist/404/index.html) — that's the
+  // exact filename Vercel's static hosting serves, with a real 404 status, for any
+  // request that doesn't match a route or another static file.
   const outPath = url === "/"
     ? path.join(distDir, "index.html")
+    : url === "/404"
+    ? path.join(distDir, "404.html")
     : path.join(distDir, url, "index.html");
 
   fs.mkdirSync(path.dirname(outPath), { recursive: true });

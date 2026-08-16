@@ -24,7 +24,7 @@ const LOCAL_BUSINESS_SCHEMA = {
   "priceRange": "$$",
 };
 
-export default function SEO({ title, description, path, image = DEFAULT_IMAGE, schema }) {
+export default function SEO({ title, description, path, image = DEFAULT_IMAGE, schema, noindex = false }) {
   const url = `${SITE_URL}${path}`;
   const schemas = [LOCAL_BUSINESS_SCHEMA, ...(schema ? (Array.isArray(schema) ? schema : [schema]) : [])];
 
@@ -34,6 +34,7 @@ export default function SEO({ title, description, path, image = DEFAULT_IMAGE, s
     <>
       <title>{title}</title>
       <meta name="description" content={description} />
+      {noindex && <meta name="robots" content="noindex, follow" />}
       <link rel="canonical" href={url} />
 
       <meta property="og:type" content="website" />
