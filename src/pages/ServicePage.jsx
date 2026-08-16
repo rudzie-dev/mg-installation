@@ -33,6 +33,10 @@ const SERVICES = {
     ],
     gallery: ["/images/CCTV", "/images/CCTV2", "/images/CCTV3"],
     cta: "Ready to secure your property?",
+    ctaNote: "Same-day CCTV callouts available across Ladysmith and surrounding areas.",
+    includedHeading: "Every camera, properly placed.",
+    galleryHeading: "CCTV installs, up close.",
+    faqHeading: "CCTV questions, answered.",
     faqs: [
       { q: "Do you install CCTV cameras near me?", a: "Yes — we cover Ladysmith, Ezakheni, Steadville, Colenso, Winterton, Bergville and the rest of uMnambithi. Message us with your area and we'll confirm a same-day or next-day slot." },
       { q: "Can I view my cameras remotely on my phone?", a: "Yes, every installation includes setting up the mobile app on your phone before we leave, so you can check in from anywhere." },
@@ -58,6 +62,10 @@ const SERVICES = {
     ],
     gallery: ["/images/DSTV", "/images/Raja3"],
     cta: "Ready for crystal-clear signal?",
+    ctaNote: "Same-day DStv callouts available across Ladysmith and surrounding areas.",
+    includedHeading: "Every dish, properly aligned.",
+    galleryHeading: "DStv installs, up close.",
+    faqHeading: "DStv questions, answered.",
     faqs: [
       { q: "Are you DStv's call centre or support line?", a: "No — MG Installations is an independent DStv installer, not affiliated with MultiChoice. For account, billing, or subscription help, contact DStv directly. For a new dish, decoder setup, or signal fix, that's exactly what we do." },
       { q: "Do you install DStv near me in Ezakheni, Colenso, or Winterton?", a: "Yes — we cover Ladysmith, Ezakheni, Steadville, Colenso, Winterton, Bergville and the rest of uMnambithi. WhatsApp us your area and we'll confirm a slot." },
@@ -83,6 +91,10 @@ const SERVICES = {
     ],
     gallery: ["/images/TVMount", "/images/Raja4"],
     cta: "Ready for a clean, cable-free setup?",
+    ctaNote: "Same-day TV mounting available across Ladysmith and surrounding areas.",
+    includedHeading: "Every mount, dead level.",
+    galleryHeading: "TV mounts, up close.",
+    faqHeading: "TV mounting questions, answered.",
     faqs: [
       { q: "Do you supply the wall bracket?", a: "Yes — we bring the correct bracket for your exact TV size and wall type as part of the job." },
       { q: "Can you mount a TV on brick, drywall, or concrete?", a: "Yes, we carry the right fixings for each wall type and always mount into studs or anchor correctly so it won't sag or fall." },
@@ -108,6 +120,11 @@ const SERVICES = {
     ],
     gallery: ["/images/Raja", "/images/Raja5"],
     cta: "Need something fixed today?",
+    ctaNote: "Same-day repair callouts available across Ladysmith and surrounding areas.",
+    includedEyebrow: "How We Work",
+    includedHeading: "Every fault, properly diagnosed.",
+    galleryHeading: "Recent repair jobs.",
+    faqHeading: "Repair questions, answered.",
     faqs: [
       { q: "My DStv signal is out — is that you or MultiChoice?", a: "If it's a technical issue — knocked dish, wind or lightning damage, faulty cabling — that's us. Account, billing, or subscription issues go through MultiChoice directly." },
       { q: "Do you fix CCTV or DStv systems installed by someone else?", a: "Yes — we repair existing systems regardless of who installed them originally." },
@@ -210,8 +227,8 @@ export default function ServicePage({ service }) {
         <section className="py-24 px-6 md:px-12 bg-white">
           <div className="max-w-7xl mx-auto">
             <motion.div {...fadeUp()} className="mb-12">
-              <p className="text-xs text-[#2563EB] font-bold uppercase tracking-widest mb-3">What's Included</p>
-              <h2 className="font-black text-3xl md:text-4xl tracking-tight text-[#1C1917]">A complete job, every time.</h2>
+              <p className="text-xs text-[#2563EB] font-bold uppercase tracking-widest mb-3">{s.includedEyebrow || "What's Included"}</p>
+              <h2 className="font-black text-3xl md:text-4xl tracking-tight text-[#1C1917]">{s.includedHeading}</h2>
             </motion.div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {s.features.map((f, i) => {
@@ -239,7 +256,7 @@ export default function ServicePage({ service }) {
             <div className="max-w-7xl mx-auto">
               <motion.div {...fadeUp()} className="mb-12">
                 <p className="text-xs text-[#2563EB] font-bold uppercase tracking-widest mb-3">Our Work</p>
-                <h2 className="font-black text-3xl md:text-4xl tracking-tight text-[#1C1917]">See it for yourself.</h2>
+                <h2 className="font-black text-3xl md:text-4xl tracking-tight text-[#1C1917]">{s.galleryHeading}</h2>
               </motion.div>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                 {s.gallery.map((img, i) => (
@@ -265,7 +282,7 @@ export default function ServicePage({ service }) {
             <div className="max-w-3xl mx-auto">
               <motion.div {...fadeUp()} className="mb-12">
                 <p className="text-xs text-[#2563EB] font-bold uppercase tracking-widest mb-3">Questions</p>
-                <h2 className="font-black text-3xl md:text-4xl tracking-tight text-[#1C1917]">Frequently asked.</h2>
+                <h2 className="font-black text-3xl md:text-4xl tracking-tight text-[#1C1917]">{s.faqHeading}</h2>
               </motion.div>
               <div className="flex flex-col gap-3">
                 {s.faqs.map((faq, i) => (
@@ -293,7 +310,7 @@ export default function ServicePage({ service }) {
             <div className="relative z-10 flex flex-col items-center text-center px-8 py-20 gap-8">
               <p className="text-xs text-blue-400 font-bold uppercase tracking-widest">Let's Get Started</p>
               <h2 className="font-black text-4xl md:text-5xl tracking-tight leading-tight">{s.cta}</h2>
-              <p className="text-white/50 text-lg max-w-md">Same-day service available across Ladysmith and surrounding areas.</p>
+              <p className="text-white/50 text-lg max-w-md">{s.ctaNote}</p>
               <div className="flex flex-col sm:flex-row gap-4 w-full max-w-sm items-stretch sm:items-center">
                 <motion.a href={waHref} target="_blank" rel="noopener noreferrer"
                   aria-label="WhatsApp Raja directly"
