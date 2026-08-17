@@ -32,6 +32,10 @@ export default function AdminDashboard() {
       </header>
 
       <div className="max-w-5xl mx-auto px-6 py-8">
+        <p className="text-xs text-[#78716C] bg-white border border-[#E7E5E4] rounded-xl px-4 py-3 mb-6">
+          Changes here go live on the site right away. <strong>Publish</strong> additionally rebuilds the page Google
+          and site visitors see before the page finishes loading — worth clicking after you're done making changes.
+        </p>
         <div className="flex gap-2 mb-8">
           {TABS.map((t) => (
             <button key={t.id} onClick={() => setTab(t.id)}
